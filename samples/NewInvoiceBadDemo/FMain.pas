@@ -169,20 +169,21 @@ var
   LMsg: String;
   LDir: string;
 begin
-  if not SelectDirectory('Select a directory', '', LDir) then
-    Exit;
-  for LFile in TDirectory.GetFiles(LDir, '*.xml') do
+  if SelectDirectory('Select a directory', '', LDir) then
   begin
-    FInvoice := ei.NewInvoiceFromFile(LFile);
-    LResult := ei.ValidateInvoice(FInvoice);
-    if LResult.Count > 0 then
+    for LFile in TDirectory.GetFiles(LDir, '*.xml') do
     begin
-      for LItem in LResult do
-        LMsg := LMsg + #13 + LItem.ToString;
-      ShowMessage(LMsg);
+      FInvoice := ei.NewInvoiceFromFile(LFile);
+      LResult := ei.ValidateInvoice(FInvoice);
+      if LResult.Count > 0 then
+      begin
+        for LItem in LResult do
+          LMsg := LMsg + #13 + LItem.ToString;
+        ShowMessage(LMsg);
+      end;
     end;
+    ShowMessage('Fine');
   end;
-  ShowMessage('Fine');
 end;
 
 procedure TMainForm.Button1Click(Sender: TObject);
