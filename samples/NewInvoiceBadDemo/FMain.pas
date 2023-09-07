@@ -137,7 +137,7 @@ end;
 
 procedure TMainForm.ButtonTipoDocumentoGetIDClick(Sender: TObject);
 begin
-  ShowMessage(FInvoice.FatturaElettronicaBody.Last(True).DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName);
+  ShowMessage(FInvoice.FatturaElettronicaBody.Last.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName);
 end;
 
 procedure TMainForm.ButtonValidateClick(Sender: TObject);
