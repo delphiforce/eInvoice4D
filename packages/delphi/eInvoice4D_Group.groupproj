@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{78510466-3D2D-4D16-8076-356A811ACD63}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="eInvoice4D.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\samples\NewInvoiceBadDemo\NewInvoiceBadDemo.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="eInvoice4D">
+        <MSBuild Projects="eInvoice4D.dproj"/>
+    </Target>
+    <Target Name="eInvoice4D:Clean">
+        <MSBuild Projects="eInvoice4D.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="eInvoice4D:Make">
+        <MSBuild Projects="eInvoice4D.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="NewInvoiceBadDemo">
+        <MSBuild Projects="..\..\samples\NewInvoiceBadDemo\NewInvoiceBadDemo.dproj"/>
+    </Target>
+    <Target Name="NewInvoiceBadDemo:Clean">
+        <MSBuild Projects="..\..\samples\NewInvoiceBadDemo\NewInvoiceBadDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="NewInvoiceBadDemo:Make">
+        <MSBuild Projects="..\..\samples\NewInvoiceBadDemo\NewInvoiceBadDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="eInvoice4D;NewInvoiceBadDemo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="eInvoice4D:Clean;NewInvoiceBadDemo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="eInvoice4D:Make;NewInvoiceBadDemo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

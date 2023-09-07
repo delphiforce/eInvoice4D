@@ -1,0 +1,92 @@
+package eInvoice4D;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS ON}
+{$RANGECHECKS ON}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  bindengine,
+  CustomIPTransport,
+  IndyIPCommon,
+  IndySystem,
+  IndyProtocols,
+  IndyCore,
+  IndyIPClient,
+  bindcomp,
+  RESTComponents;
+
+contains
+  ei4D.Attributes in '..\..\source\ei4D.Attributes.pas',
+  ei4D.Encoding in '..\..\source\ei4D.Encoding.pas',
+  ei4D.Exception in '..\..\source\ei4D.Exception.pas',
+  ei4D.GenericCollection.Interfaces in '..\..\source\ei4D.GenericCollection.Interfaces.pas',
+  ei4D.GenericCollection in '..\..\source\ei4D.GenericCollection.pas',
+  ei4D.Invoice.Collections in '..\..\source\ei4D.Invoice.Collections.pas',
+  ei4D.Invoice.Factory in '..\..\source\ei4D.Invoice.Factory.pas',
+  ei4D.Invoice.Interfaces in '..\..\source\ei4D.Invoice.Interfaces.pas',
+  ei4D.Invoice.Prop.Base in '..\..\source\ei4D.Invoice.Prop.Base.pas',
+  ei4D.Invoice.Prop.Block in '..\..\source\ei4D.Invoice.Prop.Block.pas',
+  ei4D.Invoice.Prop.Interfaces in '..\..\source\ei4D.Invoice.Prop.Interfaces.pas',
+  ei4D.Invoice.Prop.List.Enumerator in '..\..\source\ei4D.Invoice.Prop.List.Enumerator.pas',
+  ei4D.Invoice.Prop.List in '..\..\source\ei4D.Invoice.Prop.List.pas',
+  ei4D.Invoice.Prop in '..\..\source\ei4D.Invoice.Prop.pas',
+  ei4D.Logger.Interfaces in '..\..\source\ei4D.Logger.Interfaces.pas',
+  ei4D.Logger in '..\..\source\ei4D.Logger.pas',
+  ei4D.Logger.pfLogger.Adapter in '..\..\source\ei4D.Logger.pfLogger.Adapter.pas',
+  ei4D.Logger.pfLogger in '..\..\source\ei4D.Logger.pfLogger.pas',
+  ei4D.Params in '..\..\source\ei4D.Params.pas',
+  ei4D in '..\..\source\ei4D.pas',
+  ei4D.Provider.Aruba in '..\..\source\ei4D.Provider.Aruba.pas',
+  ei4D.Provider.Base in '..\..\source\ei4D.Provider.Base.pas',
+  ei4D.Provider.Interfaces in '..\..\source\ei4D.Provider.Interfaces.pas',
+  ei4D.Provider.Notary in '..\..\source\ei4D.Provider.Notary.pas',
+  ei4D.Provider.Register in '..\..\source\ei4D.Provider.Register.pas',
+  ei4D.Response.Factory in '..\..\source\ei4D.Response.Factory.pas',
+  ei4D.Response.Interfaces in '..\..\source\ei4D.Response.Interfaces.pas',
+  ei4D.Response in '..\..\source\ei4D.Response.pas',
+  ei4D.Serializer.Factory in '..\..\source\ei4D.Serializer.Factory.pas',
+  ei4D.Serializer.Interfaces in '..\..\source\ei4D.Serializer.Interfaces.pas',
+  ei4D.Serializer in '..\..\source\ei4D.Serializer.pas',
+  ei4D.Utils.P7mExtractor in '..\..\source\ei4D.Utils.P7mExtractor.pas',
+  ei4D.Utils in '..\..\source\ei4D.Utils.pas',
+  ei4D.Utils.Sanitizer in '..\..\source\ei4D.Utils.Sanitizer.pas',
+  ei4D.Encoding.Factory in '..\..\source\ei4D.Encoding.Factory.pas',
+  ei4D.Params.Interfaces in '..\..\source\ei4D.Params.Interfaces.pas',
+  ei4D.Params.Factory in '..\..\source\ei4D.Params.Factory.pas',
+  ei4D.Params.Singleton in '..\..\source\ei4D.Params.Singleton.pas',
+  ei4D.Params.Proxy in '..\..\source\ei4D.Params.Proxy.pas',
+  ei4D.Validators.Register in '..\..\source\ei4D.Validators.Register.pas',
+  ei4D.Validators.Interfaces in '..\..\source\ei4D.Validators.Interfaces.pas',
+  ei4D.Validators.Factory in '..\..\source\ei4D.Validators.Factory.pas',
+  ei4D.Validators.Core in '..\..\source\ei4D.Validators.Core.pas',
+  ei4D.Validators.Notary in '..\..\source\ei4D.Validators.Notary.pas',
+  ei4D.Validators.ValidatorsResult in '..\..\source\ei4D.Validators.ValidatorsResult.pas',
+  ei4D.Validators.XSD in '..\..\source\ei4D.Validators.XSD.pas',
+  ei4D.Validators.ExtraXSD in '..\..\source\ei4D.Validators.ExtraXSD.pas',
+  ei4D.Provider.OSItalia in '..\..\source\ei4D.Provider.OSItalia.pas';
+
+end.
