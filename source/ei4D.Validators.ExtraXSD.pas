@@ -21,6 +21,10 @@ type
     class procedure ValidateBody_00415(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
     class procedure ValidateBody_00418(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
     class procedure ValidateBody_00419(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateBody_00420(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateBody_00421(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateBody_00422(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateBody_00423(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
     class procedure ValidateBody_00425(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
   public
     class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection); override;
@@ -54,6 +58,10 @@ begin
     ValidateBody_00415(LBody, AResult);
     ValidateBody_00418(LBody, AResult);
     ValidateBody_00419(LBody, AResult);
+    ValidateBody_00420(LBody, AResult);
+    ValidateBody_00421(LBody, AResult);
+    ValidateBody_00422(LBody, AResult);
+    ValidateBody_00423(LBody, AResult);
     ValidateBody_00425(LBody, AResult);
     // Add body validators here
   end;
@@ -282,6 +290,140 @@ begin
     AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00419',
       '2.2.2 <DatiRiepilogo> non presente in corrispondenza di almeno un valore di 2.1.1.7.5 <AliquotaIVA> o 2.2.1.12 <AliquotaIVA>',
       vkExtraXSD));
+  end;
+end;
+
+class procedure TeiExtraXsdValidator.ValidateBody_00420(const ABody: IFatturaElettronicaBodyType;
+  const AResult: IeiValidatorsResultCollection);
+var
+  LProp: IeIBaseProperty;
+  LDatiRiepilogoType: IDatiRiepilogoType;
+begin
+  // ---------------------------------------------------------------------------------------
+  // - Codice 00420 2.2.2.2 <Natura> con valore di tipo N6 a fronte di 2.2.2.7 <EsigibilitaIVA> uguale a S (scissione pagamenti)
+  for LProp in ABody.DatiBeniServizi.DatiRiepilogo do
+  begin
+    LDatiRiepilogoType := (LProp as IDatiRiepilogoType);
+
+    if (LDatiRiepilogoType.EsigibilitaIVA.Value = 'S') and
+      ((LDatiRiepilogoType.Natura.Value = 'N6') or (LDatiRiepilogoType.Natura.Value = 'N6.1') or (LDatiRiepilogoType.Natura.Value = 'N6.2')
+      or (LDatiRiepilogoType.Natura.Value = 'N6.3') or (LDatiRiepilogoType.Natura.Value = 'N6.4') or
+      (LDatiRiepilogoType.Natura.Value = 'N6.5') or (LDatiRiepilogoType.Natura.Value = 'N6.6') or (LDatiRiepilogoType.Natura.Value = 'N6.7')
+      or (LDatiRiepilogoType.Natura.Value = 'N6.8') or (LDatiRiepilogoType.Natura.Value = 'N6.9')) then
+    begin
+      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00420',
+        '2.2.2.2 <Natura> con valore di tipo N6 a fronte di 2.2.2.7 <EsigibilitaIVA> uguale a S (scissione pagamenti)', vkExtraXSD));
+    end;
+  end;
+end;
+
+class procedure TeiExtraXsdValidator.ValidateBody_00421(const ABody: IFatturaElettronicaBodyType;
+  const AResult: IeiValidatorsResultCollection);
+var
+  LProp: IeIBaseProperty;
+  LDatiRiepilogoType: IDatiRiepilogoType;
+begin
+  // - Codice 00421 2.2.2.6 <Imposta> non calcolato secondo le regole definite nelle specifiche tecniche
+  for LProp in ABody.DatiBeniServizi.DatiRiepilogo do
+  begin
+    LDatiRiepilogoType := (LProp as IDatiRiepilogoType);
+    if not SameValue(LDatiRiepilogoType.Imposta.Value, (LDatiRiepilogoType.AliquotaIVA.Value * LDatiRiepilogoType.ImponibileImporto.Value /
+      100), 0.01) then
+      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00421',
+        '2.2.2.6 <Imposta> non calcolato secondo le regole definite nelle specifiche tecniche', vkExtraXSD));
+  end;
+end;
+
+class procedure TeiExtraXsdValidator.ValidateBody_00422(const ABody: IFatturaElettronicaBodyType;
+  const AResult: IeiValidatorsResultCollection);
+var
+  LProp: IeIBaseProperty;
+  LPropLinee: IeIBaseProperty;
+  LPropDatiCassaPrevidenziale: IeIBaseProperty;
+  LDettaglioLinea: IDettaglioLineeType;
+  LDatiRiepilogoType: IDatiRiepilogoType;
+  LDatiCassaPrevidenziale: IDatiCassaPrevidenzialeType;
+  LImponibileImporto: double;
+  LArrotondamento: double;
+  LPrezzoTotale: double;
+  LImportoContrCassa: double;
+begin
+  // - Codice 00422 2.2.2.5 <ImponibileImporto> non calcolato secondo le regole definite nelle specifiche tecniche
+  for LProp in ABody.DatiBeniServizi.DatiRiepilogo do
+  begin
+    LDatiRiepilogoType := (LProp as IDatiRiepilogoType);
+
+    LImponibileImporto := LDatiRiepilogoType.ImponibileImporto.Value;
+    LArrotondamento := LDatiRiepilogoType.Arrotondamento.ValueDef;
+
+    LPrezzoTotale := 0;
+    for LPropLinee in ABody.DatiBeniServizi.DettaglioLinee do
+    begin
+      LDettaglioLinea := (LPropLinee as IDettaglioLineeType);
+      if SameValue(LDettaglioLinea.AliquotaIVA.Value, LDatiRiepilogoType.AliquotaIVA.Value) then
+        LPrezzoTotale := LPrezzoTotale + LDettaglioLinea.PrezzoTotale.Value;
+    end;
+    LImportoContrCassa := 0;
+    for LPropDatiCassaPrevidenziale in ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale do
+    begin
+      LDatiCassaPrevidenziale := (LPropDatiCassaPrevidenziale as IDatiCassaPrevidenzialeType);
+      if SameValue(LDatiCassaPrevidenziale.AliquotaIVA.Value, LDatiRiepilogoType.AliquotaIVA.Value) then
+        LImportoContrCassa := LImportoContrCassa + LDatiCassaPrevidenziale.ImportoContributoCassa.Value;
+    end;
+
+    if not SameValue(LImponibileImporto, LPrezzoTotale + LImportoContrCassa + LArrotondamento, 1) then
+      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00422',
+        '2.2.2.5 <ImponibileImporto> non calcolato secondo le regole definite nelle specifiche tecniche', vkExtraXSD));
+  end;
+end;
+
+class procedure TeiExtraXsdValidator.ValidateBody_00423(const ABody: IFatturaElettronicaBodyType;
+  const AResult: IeiValidatorsResultCollection);
+var
+  LProp: IeIBaseProperty;
+  LDettaglioLinea: IDettaglioLineeType;
+  LPropSconti: IeIBaseProperty;
+  LPropScontoMaggiorazione: IScontoMaggiorazioneType;
+  LPrezzoUnitarioNetto: double;
+  LSegno: integer;
+  LQuantita: double;
+begin
+  // - Codice 00423 2.2.1.11 <PrezzoTotale> non calcolato secondo le regole definite nelle specifiche tecniche
+  for LProp in ABody.DatiBeniServizi.DettaglioLinee do
+  begin
+    LDettaglioLinea := (LProp as IDettaglioLineeType);
+
+    LPrezzoUnitarioNetto := LDettaglioLinea.PrezzoUnitario.Value;
+    for LPropSconti in LDettaglioLinea.ScontoMaggiorazione do
+    begin
+      LPropScontoMaggiorazione := (LPropSconti as IScontoMaggiorazioneType);
+      if (LPropScontoMaggiorazione.Tipo.Value = 'SC') then
+        LSegno := -1
+      else if (LPropScontoMaggiorazione.Tipo.Value = 'MG') then
+        LSegno := 1
+      else
+        LSegno := 0;
+      if not LPropScontoMaggiorazione.Percentuale.IsEmptyOrZero then
+      begin
+        // sconto a percentuale
+        LPrezzoUnitarioNetto := LPrezzoUnitarioNetto + (LSegno * (LPrezzoUnitarioNetto * LPropScontoMaggiorazione.Percentuale.Value / 100));
+      end
+      else
+      begin
+        // sconto a valore
+        LPrezzoUnitarioNetto := LPrezzoUnitarioNetto + (LSegno * LPropScontoMaggiorazione.Importo.Value);
+      end;
+    end;
+    if not LDettaglioLinea.Quantita.IsEmptyOrZero then
+      LQuantita := LDettaglioLinea.Quantita.Value
+    else
+      LQuantita := 1;
+    // Quantità specificata
+    if not SameValue(LDettaglioLinea.PrezzoTotale.Value, LPrezzoUnitarioNetto * LQuantita, 0.01000001) then
+    begin
+      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00423',
+        '2.2.1.11 <PrezzoTotale> non calcolato secondo le regole definite nelle specifiche tecniche', vkExtraXSD));
+    end;
   end;
 end;
 
