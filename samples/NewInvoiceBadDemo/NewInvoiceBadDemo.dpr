@@ -2,7 +2,8 @@ program NewInvoiceBadDemo;
 
 uses
   Vcl.Forms,
-  FMain in 'FMain.pas' {MainForm};
+  FMain in 'FMain.pas' {MainForm},
+  FValidateAll in 'FValidateAll.pas' {ValidateAllForm};
 
 {$R *.res}
 

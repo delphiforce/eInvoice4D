@@ -119,7 +119,7 @@ var
 implementation
 
 uses
-  System.DateUtils, ei4D.Utils, ei4D.Validators.Register, System.IOUtils, Vcl.FileCtrl;
+  System.DateUtils, ei4D.Utils, ei4D.Validators.Register, System.IOUtils, Vcl.FileCtrl, FValidateAll;
 
 {$R *.dfm}
 
@@ -163,26 +163,14 @@ end;
 
 procedure TMainForm.btnValidateAllClick(Sender: TObject);
 var
-  LFile: string;
-  LResult: IeiValidatorsResultCollection;
-  LItem: IeiValidatorsResult;
-  LMsg: String;
-  LDir: string;
+  LValidateAllForm: TValidateAllForm;
 begin
-  if not SelectDirectory('Select a directory', '', LDir) then
-    Exit;
-  for LFile in TDirectory.GetFiles(LDir, '*.xml') do
-  begin
-    FInvoice := ei.NewInvoiceFromFile(LFile);
-    LResult := ei.ValidateInvoice(FInvoice);
-    if LResult.Count > 0 then
-    begin
-      for LItem in LResult do
-        LMsg := LMsg + #13 + LItem.ToString;
-      ShowMessage(LMsg);
-    end;
+  LValidateAllForm := TValidateAllForm.Create(self);
+  try
+    LValidateAllForm.ShowModal;
+  finally
+    LValidateAllForm.Free;
   end;
-  ShowMessage('Fine');
 end;
 
 procedure TMainForm.Button1Click(Sender: TObject);
