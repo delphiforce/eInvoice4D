@@ -64,7 +64,9 @@ begin
   APos := AXMLText.IndexOf('</' + APropName + '>', APos);
   if (APos = -1) then
     raise eiSerializerException.Create(Format('Closing tag not found for property named "%s"', [APropName]));
-  Result := AXMLText.Substring(LStartPos, APos - LStartPos);
+  // NOTA: 23/12/23 Maurizio e Thomas
+  // Inserito Trim per presenza di spazi in coda a valori numerici di alcune fatture
+  Result := AXMLText.Substring(LStartPos, APos - LStartPos).Trim;
   Inc(APos, APropName.Length + 3);
 end;
 

@@ -111,7 +111,7 @@ begin
   result := StrToDateTime(AValue, GetFormatSettings);
 end;
 
-class function TeiUtils.StringToDateTime(const AValue: String; const AReturnUTC: Boolean): TDateTime;
+class function TeiUtils.StringToDateTime(const AValue: String; const AReturnUTC: Boolean = True): TDateTime;
 begin
   // NB: Con AReturnUTC = True ritorna  la data e ora ricevuta come Value così come è senza aggiungere il
   // timezone offset, se invece AReturnUTC = False allora considera Value come ora UTC standard

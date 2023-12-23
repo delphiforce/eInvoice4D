@@ -32,7 +32,8 @@ type
     function Comune: IeiString;
     [eiProp(5, o01, 2, 2), eiRegEx('^[A-Z]{2}$')]
     function Provincia: IeiString;
-    [eiProp(6, o11, 2, 2), eiRegEx('^[A-Z]{2}$')]
+    // [eiProp(6, o11, 2, 2), eiRegEx('^[A-Z]{2}$')]
+    [eiProp(6, o11, 0, 2), eiRegEx('^[A-Z]{0,2}$')]
     function Nazione: IeiString;
   end;
 
@@ -97,23 +98,13 @@ type
 
   // USED IN: [1.3]
   IDatiAnagraficiRappresentanteType = interface(IeiBlock)
-    ['{82EF34FB-150F-40DD-9FAA-F69A58B5C5BA}']
+    ['{A055B04C-BB78-4D68-BCB0-A864AB01957A}']
     [eiBlock(1, o11)]
     function IdFiscaleIVA: IIdFiscaleType;
     [eiProp(2, o01, 11, 16)] (* ,eiRegEx('^[A-Z0-9]{11,16}$')] *)
     function CodiceFiscale: IeiString;
     [eiBlock(3, o11)]
     function Anagrafica: IAnagraficaType;
-    [eiProp(4, o01, 1, 60)]
-    function AlboProfessionale: IeiString;
-    [eiProp(5, o01, 2, 2), eiRegEx('^[A-Z]{2}$')]
-    function ProvinciaAlbo: IeiString;
-    [eiProp(6, o01, 1, 60)]
-    function NumeroIscrizioneAlbo: IeiString;
-    [eiProp(7, o01, 10, 10)]
-    function DataIscrizioneAlbo: IeiDate;
-    [eiProp(8, o11, 4, 4), eiRegEx('RF01|RF02|RF04|RF05|RF06|RF07|RF08|RF09|RF10|RF11|RF12|RF13|RF14|RF15|RF16|RF17|RF19|RF18')]
-    function RegimeFiscale: IeiString;
   end;
 
   // USED IN: [1.2]
@@ -291,15 +282,15 @@ type
     function PesoLordo: IeiDecimal;
     [eiProp(8, o01, 4, 7)]
     function PesoNetto: IeiDecimal;
-    [eiProp(9, o01, 19, 19)]
+    [eiProp(9, o01, 19, 20)]
     function DataOraRitiro: IeiDateTime;
     [eiProp(10, o01, 10, 10)]
-    function DataIniziotrasporto: IeiDate;
+    function DataInizioTrasporto: IeiDate;
     [eiProp(11, o01, 3, 3), eiRegEx('^[A-Z]{3}$')]
     function TipoResa: IeiString;
     [eiBlock(12, o01)]
     function IndirizzoResa: IIndirizzoType;
-    [eiProp(13, o01, 19, 19)]
+    [eiProp(13, o01, 19, 20)]
     function DataOraConsegna: IeiDateTime;
   end;
 
@@ -344,7 +335,8 @@ type
   // ID: 2.1.1.7
   IDatiCassaPrevidenzialeType = interface(IeiBlock)
     ['{64D1C712-60CB-4AFF-8ED0-0EC3B466647A}']
-    [eiProp(1, o11, 4, 4), eiRegEx('TC01|TC02|TC03|TC04|TC05|TC06|TC07|TC08|TC09|TC10|TC11|TC12|TC13|TC14|TC15|TC16|TC17|TC18|TC19|TC20|TC21|TC22')]
+    [eiProp(1, o11, 4, 4),
+      eiRegEx('TC01|TC02|TC03|TC04|TC05|TC06|TC07|TC08|TC09|TC10|TC11|TC12|TC13|TC14|TC15|TC16|TC17|TC18|TC19|TC20|TC21|TC22')]
     function TipoCassa: IeiString;
     [eiProp(2, o11, 4, 6)]
     function AlCassa: IeiDecimal;
@@ -565,7 +557,8 @@ type
     ['{DBB70934-AC84-4C80-A7C6-9BC8DB7BB048}']
     [eiProp(1, o01, 1, 200)]
     function Beneficiario: IeiString;
-    [eiProp(2, o11, 4, 4), eiRegEx('MP01|MP02|MP03|MP04|MP05|MP06|MP07|MP08|MP09|MP10|MP11|MP12|MP13|MP14|MP15|MP16|MP17|MP18|MP19|MP20|MP21|MP22|MP23')
+    [eiProp(2, o11, 4, 4),
+      eiRegEx('MP01|MP02|MP03|MP04|MP05|MP06|MP07|MP08|MP09|MP10|MP11|MP12|MP13|MP14|MP15|MP16|MP17|MP18|MP19|MP20|MP21|MP22|MP23')
       ]
     function ModalitaPagamento: IeiString;
     [eiProp(3, o01, 10, 10)]
