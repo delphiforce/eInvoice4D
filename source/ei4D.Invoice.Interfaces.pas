@@ -282,7 +282,7 @@ type
     function PesoLordo: IeiDecimal;
     [eiProp(8, o01, 4, 7)]
     function PesoNetto: IeiDecimal;
-    [eiProp(9, o01, 19, 20)]
+    [eiProp(9, o01, 19, 19)]
     function DataOraRitiro: IeiDateTime;
     [eiProp(10, o01, 10, 10)]
     function DataInizioTrasporto: IeiDate;
@@ -290,7 +290,7 @@ type
     function TipoResa: IeiString;
     [eiBlock(12, o01)]
     function IndirizzoResa: IIndirizzoType;
-    [eiProp(13, o01, 19, 20)]
+    [eiProp(13, o01, 19, 19)]
     function DataOraConsegna: IeiDateTime;
   end;
 

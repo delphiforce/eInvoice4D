@@ -37,7 +37,8 @@ begin
     Exit;
   case AProp.Kind of
     pkValue:
-      Result := StringOfChar(' ', (AIndentLevel + 1) * INDENT_UNIT) + Format('<%s>%s</%s>' + sLineBreak, [AProp.Name, AProp.ValueAsString, AProp.Name]);
+      Result := StringOfChar(' ', (AIndentLevel + 1) * INDENT_UNIT) + Format('<%s>%s</%s>' + sLineBreak,
+        [AProp.Name, AProp.ValueAsString, AProp.Name]);
     pkBlock:
       begin
         Result := StringOfChar(' ', (AIndentLevel + 1) * INDENT_UNIT) + Format('<%s>' + sLineBreak, [AProp.Name]);

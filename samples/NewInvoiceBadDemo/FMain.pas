@@ -74,6 +74,7 @@ type
     OpenDialog1: TOpenDialog;
     ButtonValidate: TButton;
     btnValidateAll: TBitBtn;
+    Button2: TButton;
     procedure ButtonNewInvoiceClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ButtonShowDataClick(Sender: TObject);
@@ -105,6 +106,7 @@ type
     procedure ButtonValidateClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnValidateAllClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
     FInvoice: IFatturaElettronicaType;
@@ -174,9 +176,20 @@ begin
 end;
 
 procedure TMainForm.Button1Click(Sender: TObject);
+var
+  LXml: string;
 begin
-  MemoXML.Text := ei.InvoiceToString(FInvoice);
+  Lxml:= ei.InvoiceToString(FInvoice);
+  MemoXML.Clear;
+  MemoXML.Visible := True;
   MemoXML.Align := alClient;
+  MemoXML.Update;
+  MemoXML.Text := lxml;
+end;
+
+procedure TMainForm.Button2Click(Sender: TObject);
+begin
+  MemoXML.Visible := False;
 end;
 
 procedure TMainForm.ButtonAddAllegatoClick(Sender: TObject);

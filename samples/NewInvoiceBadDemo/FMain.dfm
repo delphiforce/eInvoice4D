@@ -751,13 +751,14 @@ object MainForm: TMainForm
     OnClick = Button1Click
   end
   object MemoXML: TMemo
-    Left = 603
-    Top = 43
-    Width = 94
-    Height = 46
+    Left = 618
+    Top = 70
+    Width = 80
+    Height = 39
     Lines.Strings = (
       'MemoXML')
     TabOrder = 34
+    WordWrap = False
   end
   object ButtonLoadInvoiceFromFile: TButton
     Left = 16
@@ -785,6 +786,15 @@ object MainForm: TMainForm
     Caption = 'Validate All'
     TabOrder = 37
     OnClick = btnValidateAllClick
+  end
+  object Button2: TButton
+    Left = 608
+    Top = 39
+    Width = 89
+    Height = 25
+    Caption = 'Close Memo'
+    TabOrder = 38
+    OnClick = Button2Click
   end
   object Timer1: TTimer
     Enabled = False
