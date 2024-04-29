@@ -32,22 +32,14 @@ object MainForm: TMainForm
       Caption = 'ACTIONS'
       ExplicitWidth = 49
     end
-    object buttonCreate: TButton
+    object ButtonLoadInvoiceFromFile: TButton
       Left = 8
-      Top = 56
+      Top = 40
       Width = 185
       Height = 33
-      Caption = 'create and fill invoice'
+      Caption = 'load invoice from file'
       TabOrder = 0
-      OnClick = buttonCreateClick
-    end
-    object CheckBoxSaveToFile: TCheckBox
-      Left = 40
-      Top = 104
-      Width = 113
-      Height = 17
-      Caption = 'save to file (after)'
-      TabOrder = 1
+      OnClick = ButtonLoadInvoiceFromFileClick
     end
   end
   object panelXml: TPanel
@@ -78,6 +70,12 @@ object MainForm: TMainForm
       Align = alClient
       BevelOuter = bvNone
       BorderStyle = bsNone
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Courier New'
+      Font.Style = []
+      ParentFont = False
       ScrollBars = ssBoth
       TabOrder = 0
     end
@@ -85,7 +83,12 @@ object MainForm: TMainForm
   object SaveDialog1: TSaveDialog
     DefaultExt = 'xml'
     FileName = 'invoice sample'
-    Left = 72
-    Top = 144
+    Left = 248
+    Top = 152
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = 'xml'
+    Left = 248
+    Top = 96
   end
 end

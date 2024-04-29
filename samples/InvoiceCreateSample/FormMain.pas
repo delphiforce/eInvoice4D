@@ -119,7 +119,6 @@ begin
   // save to file
   if CheckBoxSaveToFile.Checked and SaveDialog1.Execute then
     ei.InvoiceToFile(LInvoice, SaveDialog1.FileName);
-
 end;
 
 end.

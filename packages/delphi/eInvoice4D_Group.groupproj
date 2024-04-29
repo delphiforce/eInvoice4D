@@ -9,6 +9,9 @@
         <Projects Include="..\..\samples\InvoiceCreateSample\InvoiceCreateSample.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="InvoiceCreateSample:Make">
         <MSBuild Projects="..\..\samples\InvoiceCreateSample\InvoiceCreateSample.dproj" Targets="Make"/>
     </Target>
+    <Target Name="InvoiceModifySample">
+        <MSBuild Projects="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj"/>
+    </Target>
+    <Target Name="InvoiceModifySample:Clean">
+        <MSBuild Projects="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="InvoiceModifySample:Make">
+        <MSBuild Projects="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="eInvoice4D;InvoiceCreateSample"/>
+        <CallTarget Targets="eInvoice4D;InvoiceCreateSample;InvoiceModifySample"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="eInvoice4D:Clean;InvoiceCreateSample:Clean"/>
+        <CallTarget Targets="eInvoice4D:Clean;InvoiceCreateSample:Clean;InvoiceModifySample:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="eInvoice4D:Make;InvoiceCreateSample:Make"/>
+        <CallTarget Targets="eInvoice4D:Make;InvoiceCreateSample:Make;InvoiceModifySample:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
