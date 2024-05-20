@@ -353,7 +353,7 @@ begin
     if FParams.SanitizePurchaseInvoices then
     begin
       TeiLogger.LogI(Format('Sanitizing XML structure for invoice "%s"', [AInvoiceID]));
-      AResponseCollection.Last.MsgRaw := TeiSanitizer.SanitizeXMLStructure(AResponseCollection.Last.MsgRaw);
+      AResponseCollection.Last.MsgRaw := TeiSanitizer.SanitizeReceivedXML(AResponseCollection.Last.MsgRaw);
     end;
   except
     on E: Exception do

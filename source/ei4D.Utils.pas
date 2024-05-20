@@ -73,6 +73,7 @@ type
     class procedure StringToStream(const ASourceString: String; const ADestStream: TStream);
     class function StreamToString(const ASourceStream: TStream): string;
     // class function ExtractInvoiceIDFromNotification(const ANotificationXML: string): string; deprecated; // Deprecated??? // To test???
+    class function XMLFindTag(const AXMLText: String; var APos: Integer): string;
   end;
 
 implementation
@@ -99,6 +100,18 @@ begin
   finally
     LStringStream.Free;
   end;
+end;
+
+class function TeiUtils.XMLFindTag(const AXMLText: String; var APos: Integer): string;
+var
+  LStartPos: Integer;
+begin
+  LStartPos := AXMLText.IndexOf('<', APos);
+  APos := AXMLText.IndexOf('>', LStartPos);
+  if (LStartPos = -1) or (APos = -1) then
+    raise eiGenericException.Create('Tag not found');
+  Result := AXMLText.Substring(LStartPos + 1, APos - LStartPos - 1);
+  Inc(APos);
 end;
 
 class function TeiUtils.DateToString(const AValue: TDateTime): string;

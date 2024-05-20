@@ -56,7 +56,7 @@ begin
   LInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value := 'IT';
   LInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdCodice.Value := '12345678901';
   LInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.CodiceFiscale.Value := '12345678901';
-  LInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.Anagrafica.Denominazione.Value := 'ACME SRL';
+  LInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.Anagrafica.Denominazione.Value := 'ACME & € C. SRL';
   LInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.RegimeFiscale.Value := 'RF01';
   LInvoice.FatturaElettronicaHeader.CedentePrestatore.Sede.Indirizzo.Value := 'VIA ROMA 4/D';
   LInvoice.FatturaElettronicaHeader.CedentePrestatore.Sede.CAP.Value := '25100';
