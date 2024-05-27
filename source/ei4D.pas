@@ -202,7 +202,7 @@ begin
     Format('<p:FatturaElettronica versione="%s" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2">',
     [AInvoice.FatturaElettronicaHeader.DatiTrasmissione.FormatoTrasmissione.Value]));
   Result := Result.Replace('</FatturaElettronica>', '</p:FatturaElettronica>');
-  TeiSanitizer.RefineOutXML(Result);
+  TeiSanitizer.SanitizeToSendXML(Result);
 end;
 
 class function ei.InvoiceToStringBase64(const AInvoice: IFatturaElettronicaType): String;

@@ -41,7 +41,7 @@ uses
 
 class function TeiInvoiceFactory.InternalNewInvoiceFromString(AStringXML: String; const AParams: IeiParams): IFatturaElettronicaType;
 begin
-  AStringXML := TeiSanitizer.SanitizeXMLStructure(AStringXML);
+  AStringXML := TeiSanitizer.SanitizeReceivedXML(AStringXML);
   Result := TeiInvoiceFactory.NewInvoice(AParams);
   TeiSerializerFactory.NewSerializer.FromXML(Result, AStringXML);
 end;

@@ -1,14 +1,14 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{DA92BFCF-C8F0-459F-94D7-3AC719BA0AEA}</ProjectGuid>
-        <MainSource>eInvoice4D.dpk</MainSource>
+        <ProjectGuid>{84EB0435-9366-4413-82E7-F5BC0CB649E5}</ProjectGuid>
         <ProjectVersion>20.1</ProjectVersion>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
-        <AppType>Package</AppType>
+        <AppType>Application</AppType>
+        <MainSource>InvoiceCreateSample.dpr</MainSource>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -34,9 +34,27 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
+        <Cfg_2_Win64>true</Cfg_2_Win64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
@@ -47,22 +65,32 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <GenDll>true</GenDll>
-        <GenPackage>true</GenPackage>
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
-        <SanitizedProjectName>eInvoice4D</SanitizedProjectName>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
+        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
+        <UWP_DelphiLogo44>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_44.png</UWP_DelphiLogo44>
+        <UWP_DelphiLogo150>$(BDS)\bin\Artwork\Windows\UWP\delphi_UwpDefault_150.png</UWP_DelphiLogo150>
+        <SanitizedProjectName>InvoiceCreateSample</SanitizedProjectName>
+        <DCC_UnitSearchPath>..\..\source;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_Locale>1040</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_UsePackage>JvNet;vclwinx;DataSnapServer;fs29;bdertl;fmx;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;DBXMSSQLDriver;FireDACCommonODBC;emsclient;fsTee29;appanalytics;IndyProtocols;vclx;Skia.Package.RTL;dbxcds;vcledge;frLanguageSlovak29;FmxTeeUI;frLanguageHungarian29;DBXFirebirdDriver;JvAppFrm;dacvcl290;FireDACSqliteDriver;DbxClientDriver;JclVcl;soapmidas;frLanguageArabic29;TeeUI;frCoreLibrary29;Jcl;dbexpress;frLanguageCatalon29;JvManagedThreads;frLanguageBrazil29;frLanguageCzech29;inet;vcltouch;uniGUI29VCL;JvDB;FireDACDBXDriver;fmxdae;JvCustom;CustomIPTransport;FireDACMSSQLDriver;JvSystem;LockBox3DR;frxIBX29;JvControls;frLanguageItalian29;frxPDF29;frLanguageSwiss29;JvCrypt;JvJans;JvMM;IndySystem;frxe29;frLanguageSwedish29;JvGlobus;ibxbindings;frLanguageUkrainian29;fsDB29;JclContainers;JvPageComps;vclFireDAC;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;frLanguageDanish29;bindcompdbx;frxTee29;rtl;FireDACMySQLDriver;frLanguageLithuanian29;DBXSqliteDriver;frLanguageFrench29;frLanguageRussian29;DBXSybaseASEDriver;JvRuntimeDesign;JvXPCtrls;vclimg;DataSnapFireDAC;inetdbxpress;FireDAC;JvDocking;JvDlgs;xmlrtl;ibxpress;dsnap;JvCmp;frLanguageSerbian29;FireDACDb2Driver;DBXOracleDriver;DBXInformixDriver;vclib;frLanguageFarsi29;fmxobj;bindcompvclsmp;DataSnapNativeClient;frx29;frLanguageChinese29;DatasnapConnectorsFreePascal;vcldbx;ibdacvcl290;frxIntIOIndy29;frLanguageHebrew29;emshosting;frxDB29;dOPCP;frLocalizationLibrary29;FireDACCommonDriver;CPortLibDXE;IndyIPClient;frxHTML29;bindcompvclwinx;frLanguageTaiwan29;emsedge;bindcompfmx;uSynEdit_R2025;frLanguageRomanian29;frLanguageGerman29;JvBands;crcontrols290;inetdb;ibmonitor;frLanguageIndonesian29;FireDACASADriver;Tee;frLanguageBrazil229;vclactnband;fmxFireDAC;FireDACInfxDriver;frLanguageCroatian29;DBXMySQLDriver;fsADO29;VclSmp;DataSnapCommon;JvPascalInterpreter;fmxase;JvPluginSystem;DBXOdbcDriver;JvTimeFramework;dbrtl;uniGUI29m;FireDACOracleDriver;Skia.Package.FMX;TeeDB;FireDACMSAccDriver;frLanguageSlovene29;DataSnapIndy10ServerTransport;JclDeveloperTools;DataSnapConnectors;frLanguageTurkish29;vcldsnap;DBXInterBaseDriver;frLanguageGreek29;FireDACMongoDBDriver;JvWizards;FireDACTDataDriver;uniGUI29Chart;Skia.Package.VCL;frLanguageBrazil129;vcldb;JvCore;dacfmx290;bindcomp;frLanguageLatvian29;IndyCore;RESTBackendComponents;frLanguageSpanish29;frxIntIO29;fsIBX29;frLanguageJapanese29;FireDACADSDriver;ibdac290;frxFD29;RESTComponents;IndyIPServer;vcl;dsnapxml;adortl;dsnapcon;DataSnapClient;DataSnapProviderClient;fsFD29;JvDotNetCtrls;JvHMI;frxADO29;DBXDb2Driver;dac290;ibdacfmx290;frLanguageDutch29;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;JvPrintPreview;frLanguagePortuguese29;tethering;JvStdCtrls;frLanguageBulgarian29;frLanguagePolish29;bindcompvcl;frxDBX29;CloudService;DBXSybaseASADriver;FMXTee;soaprtl;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <DCC_UsePackage>rtl;bindengine;CustomIPTransport;IndyIPCommon;IndySystem;IndyProtocols;IndyCore;IndyIPClient;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>rtl;bindengine;CustomIPTransport;IndyIPCommon;IndySystem;IndyProtocols;IndyCore;IndyIPClient;bindcomp;RESTComponents;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>vclwinx;DataSnapServer;fs29;fmx;vclie;DbxCommonDriver;bindengine;IndyIPCommon;VCLRESTComponents;DBXMSSQLDriver;FireDACCommonODBC;emsclient;fsTee29;appanalytics;IndyProtocols;vclx;dbxcds;vcledge;frLanguageSlovak29;FmxTeeUI;frLanguageHungarian29;DBXFirebirdDriver;FireDACSqliteDriver;DbxClientDriver;soapmidas;frLanguageArabic29;TeeUI;frCoreLibrary29;dbexpress;frLanguageCatalon29;frLanguageBrazil29;frLanguageCzech29;inet;vcltouch;uniGUI29VCL;FireDACDBXDriver;fmxdae;CustomIPTransport;FireDACMSSQLDriver;LockBox3DR;frxIBX29;frLanguageItalian29;frxPDF29;frLanguageSwiss29;IndySystem;frxe29;frLanguageSwedish29;ibxbindings;frLanguageUkrainian29;fsDB29;vclFireDAC;FireDACCommon;DataSnapServerMidas;FireDACODBCDriver;emsserverresource;frLanguageDanish29;bindcompdbx;frxTee29;rtl;FireDACMySQLDriver;frLanguageLithuanian29;DBXSqliteDriver;frLanguageFrench29;frLanguageRussian29;DBXSybaseASEDriver;vclimg;DataSnapFireDAC;inetdbxpress;FireDAC;xmlrtl;ibxpress;dsnap;frLanguageSerbian29;FireDACDb2Driver;DBXOracleDriver;DBXInformixDriver;vclib;frLanguageFarsi29;fmxobj;bindcompvclsmp;DataSnapNativeClient;frx29;frLanguageChinese29;DatasnapConnectorsFreePascal;frxIntIOIndy29;frLanguageHebrew29;emshosting;frxDB29;frLocalizationLibrary29;FireDACCommonDriver;IndyIPClient;frxHTML29;bindcompvclwinx;frLanguageTaiwan29;emsedge;bindcompfmx;uSynEdit_R2025;frLanguageRomanian29;frLanguageGerman29;inetdb;ibmonitor;frLanguageIndonesian29;FireDACASADriver;Tee;frLanguageBrazil229;vclactnband;fmxFireDAC;FireDACInfxDriver;frLanguageCroatian29;DBXMySQLDriver;fsADO29;VclSmp;DataSnapCommon;fmxase;DBXOdbcDriver;dbrtl;uniGUI29m;FireDACOracleDriver;TeeDB;FireDACMSAccDriver;frLanguageSlovene29;DataSnapIndy10ServerTransport;DataSnapConnectors;frLanguageTurkish29;vcldsnap;DBXInterBaseDriver;frLanguageGreek29;FireDACMongoDBDriver;FireDACTDataDriver;uniGUI29Chart;Skia.Package.VCL;frLanguageBrazil129;vcldb;bindcomp;frLanguageLatvian29;IndyCore;RESTBackendComponents;frLanguageSpanish29;frxIntIO29;fsIBX29;frLanguageJapanese29;FireDACADSDriver;frxFD29;RESTComponents;IndyIPServer;vcl;dsnapxml;adortl;dsnapcon;DataSnapClient;DataSnapProviderClient;fsFD29;frxADO29;DBXDb2Driver;frLanguageDutch29;emsclientfiredac;FireDACPgDriver;FireDACDSDriver;frLanguagePortuguese29;tethering;frLanguageBulgarian29;frLanguagePolish29;bindcompvcl;frxDBX29;CloudService;DBXSybaseASADriver;FMXTee;soaprtl;soapserver;FireDACIBDriver;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
@@ -76,6 +104,12 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -83,68 +117,20 @@
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+    </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="rtl.dcp"/>
-        <DCCReference Include="bindengine.dcp"/>
-        <DCCReference Include="CustomIPTransport.dcp"/>
-        <DCCReference Include="IndyIPCommon.dcp"/>
-        <DCCReference Include="IndySystem.dcp"/>
-        <DCCReference Include="IndyProtocols.dcp"/>
-        <DCCReference Include="IndyCore.dcp"/>
-        <DCCReference Include="IndyIPClient.dcp"/>
-        <DCCReference Include="bindcomp.dcp"/>
-        <DCCReference Include="RESTComponents.dcp"/>
-        <DCCReference Include="..\..\source\ei4D.Attributes.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Encoding.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Exception.pas"/>
-        <DCCReference Include="..\..\source\ei4D.GenericCollection.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.GenericCollection.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Collections.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Factory.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Prop.Base.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Prop.Block.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Prop.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Prop.List.Enumerator.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Prop.List.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Invoice.Prop.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Logger.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Logger.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Logger.pfLogger.Adapter.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Logger.pfLogger.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Params.pas"/>
-        <DCCReference Include="..\..\source\ei4D.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Provider.Aruba.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Provider.Base.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Provider.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Provider.Notary.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Provider.Register.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Response.Factory.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Response.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Response.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Serializer.Factory.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Serializer.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Serializer.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Utils.P7mExtractor.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Utils.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Utils.Sanitizer.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Encoding.Factory.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Params.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Params.Factory.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Params.Singleton.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Params.Proxy.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.Register.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.Interfaces.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.Factory.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.Core.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.Notary.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.ValidatorsResult.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.XSD.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.ExtraXSD.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Provider.OSItalia.pas"/>
+        <DCCReference Include="FormMain.pas">
+            <Form>MainForm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
@@ -159,38 +145,30 @@
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Delphi.Personality.12</Borland.Personality>
-        <Borland.ProjectType>Package</Borland.ProjectType>
+        <Borland.ProjectType>Application</Borland.ProjectType>
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">eInvoice4D.dpk</Source>
+                    <Source Name="MainSource">InvoiceCreateSample.dpr</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\iossimulator\libpcre.dylib" Class="DependencyModule">
-                    <Platform Name="iOSSimulator">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\eInvoice4D.bpl" Configuration="Debug" Class="ProjectOutput"/>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\eInvoice4D.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="Win32\Debug\InvoiceCreateSample.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>eInvoice4D.bpl</RemoteName>
+                        <RemoteName>InvoiceCreateSample.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployClass Name="AdditionalDebugSymbols">
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -214,12 +192,6 @@
                     </Platform>
                     <Platform Name="Android64">
                         <RemoteDir>res\xml</RemoteDir>
-                        <Operation>1</Operation>
-                    </Platform>
-                </DeployClass>
-                <DeployClass Name="AndroidGDBServer">
-                    <Platform Name="Android">
-                        <RemoteDir>library\lib\armeabi-v7a</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -610,6 +582,7 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -618,14 +591,17 @@
                 </DeployClass>
                 <DeployClass Name="DependencyFramework">
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
                     <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
                     <Platform Name="OSXARM64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.framework</Extensions>
                     </Platform>
@@ -634,15 +610,30 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="DependencyModule">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimARM64">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSXARM64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -665,14 +656,17 @@
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="OSXARM64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                         <Extensions>.dylib</Extensions>
                     </Platform>
@@ -698,12 +692,15 @@
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSX64">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="OSXARM64">
+                        <RemoteDir>Contents\Resources\StartUp\</RemoteDir>
                         <Operation>0</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -718,9 +715,44 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectOSXDebug"/>
-                <DeployClass Name="ProjectOSXEntitlements"/>
-                <DeployClass Name="ProjectOSXInfoPList"/>
+                <DeployClass Name="ProjectOSXDebug">
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSXARM64">
+                        <RemoteDir>..\$(PROJECTNAME).app.dSYM\Contents\Resources\DWARF</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXEntitlements">
+                    <Platform Name="OSX32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSXARM64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectOSXInfoPList">
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSX64">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="OSXARM64">
+                        <RemoteDir>Contents</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
                     <Platform Name="OSX32">
                         <RemoteDir>Contents\Resources</RemoteDir>
@@ -757,12 +789,15 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSX64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="OSXARM64">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="Win32">
@@ -797,9 +832,41 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSEntitlements"/>
-                <DeployClass Name="ProjectiOSInfoPList"/>
-                <DeployClass Name="ProjectiOSLaunchScreen"/>
+                <DeployClass Name="ProjectiOSEntitlements">
+                    <Platform Name="iOSDevice32">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimARM64">
+                        <RemoteDir>..\</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSInfoPList">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSDevice64">
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimARM64">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="ProjectiOSLaunchScreen">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen</RemoteDir>
+                        <Operation>64</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimARM64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen</RemoteDir>
+                        <Operation>64</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectiOSResource">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
@@ -1036,11 +1103,10 @@
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimARM64" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Linux64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
             </Deployment>

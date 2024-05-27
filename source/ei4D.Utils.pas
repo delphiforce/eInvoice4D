@@ -73,6 +73,7 @@ type
     class procedure StringToStream(const ASourceString: String; const ADestStream: TStream);
     class function StreamToString(const ASourceStream: TStream): string;
     // class function ExtractInvoiceIDFromNotification(const ANotificationXML: string): string; deprecated; // Deprecated??? // To test???
+    class function XMLFindTag(const AXMLText: String; var APos: Integer): string;
   end;
 
 implementation
@@ -101,6 +102,18 @@ begin
   end;
 end;
 
+class function TeiUtils.XMLFindTag(const AXMLText: String; var APos: Integer): string;
+var
+  LStartPos: Integer;
+begin
+  LStartPos := AXMLText.IndexOf('<', APos);
+  APos := AXMLText.IndexOf('>', LStartPos);
+  if (LStartPos = -1) or (APos = -1) then
+    raise eiGenericException.Create('Tag not found');
+  Result := AXMLText.Substring(LStartPos + 1, APos - LStartPos - 1);
+  Inc(APos);
+end;
+
 class function TeiUtils.DateToString(const AValue: TDateTime): string;
 begin
   result := FormatDateTime('yyyy-mm-dd', AValue, GetFormatSettings);
@@ -111,7 +124,7 @@ begin
   result := StrToDateTime(AValue, GetFormatSettings);
 end;
 
-class function TeiUtils.StringToDateTime(const AValue: String; const AReturnUTC: Boolean): TDateTime;
+class function TeiUtils.StringToDateTime(const AValue: String; const AReturnUTC: Boolean = True): TDateTime;
 begin
   // NB: Con AReturnUTC = True ritorna  la data e ora ricevuta come Value così come è senza aggiungere il
   // timezone offset, se invece AReturnUTC = False allora considera Value come ora UTC standard

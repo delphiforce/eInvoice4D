@@ -1,16 +1,12 @@
-program NewInvoiceBadDemo;
+program InvoiceModifySample;
 
 uses
   Vcl.Forms,
-  FMain in 'FMain.pas' {MainForm};
+  FormMain in 'FormMain.pas' {MainForm};
 
 {$R *.res}
 
-{$STRONGLINKTYPES ON}
-
 begin
-  ReportMemoryLeaksOnShutdown := True;
-
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TMainForm, MainForm);

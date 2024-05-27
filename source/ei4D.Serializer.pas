@@ -14,7 +14,6 @@ type
   private
     function PropToXML(const AProp: IeiBaseProperty; const AIndentLevel: Integer): String;
     function XMLExtractPropValue(const AXMLText, APropName: String; var APos: Integer): String;
-    function XMLFindTag(const AXMLText: String; var APos: Integer): String;
     procedure XMLToProp(const AProp: IeiBaseProperty; const AXMLText: String; var APos: Integer);
   public
     procedure FromXML(const AInvoice: IFatturaElettronicaType; const AXMLText: String);
@@ -24,7 +23,7 @@ type
 implementation
 
 uses
-  System.SysUtils, ei4D.Exception, ei4D.Invoice.Factory;
+  System.SysUtils, ei4D.Exception, ei4D.Invoice.Factory, ei4D.Utils;
 
 { TeiSerializerXML }
 
@@ -37,7 +36,8 @@ begin
     Exit;
   case AProp.Kind of
     pkValue:
-      Result := StringOfChar(' ', (AIndentLevel + 1) * INDENT_UNIT) + Format('<%s>%s</%s>' + sLineBreak, [AProp.Name, AProp.ValueAsString, AProp.Name]);
+      Result := StringOfChar(' ', (AIndentLevel + 1) * INDENT_UNIT) + Format('<%s>%s</%s>' + sLineBreak,
+        [AProp.Name, AProp.ValueAsString, AProp.Name]);
     pkBlock:
       begin
         Result := StringOfChar(' ', (AIndentLevel + 1) * INDENT_UNIT) + Format('<%s>' + sLineBreak, [AProp.Name]);
@@ -64,20 +64,10 @@ begin
   APos := AXMLText.IndexOf('</' + APropName + '>', APos);
   if (APos = -1) then
     raise eiSerializerException.Create(Format('Closing tag not found for property named "%s"', [APropName]));
-  Result := AXMLText.Substring(LStartPos, APos - LStartPos);
+  // NOTA: 23/12/23 Maurizio e Thomas
+  // Inserito Trim per presenza di spazi in coda a valori numerici di alcune fatture
+  Result := AXMLText.Substring(LStartPos, APos - LStartPos).Trim;
   Inc(APos, APropName.Length + 3);
-end;
-
-function TeiSerializerXML.XMLFindTag(const AXMLText: String; var APos: Integer): String;
-var
-  LStartPos: Integer;
-begin
-  LStartPos := AXMLText.IndexOf('<', APos);
-  APos := AXMLText.IndexOf('>', LStartPos);
-  if (LStartPos = -1) or (APos = -1) then
-    raise eiSerializerException.Create('Tag not found');
-  Result := AXMLText.Substring(LStartPos + 1, APos - LStartPos - 1);
-  Inc(APos);
 end;
 
 procedure TeiSerializerXML.XMLToProp(const AProp: IeiBaseProperty; const AXMLText: String; var APos: Integer);
@@ -90,7 +80,7 @@ begin
     pkBlock:
       begin
         repeat
-          LCurrTagName := XMLFindTag(AXMLText, APos);
+          LCurrTagName := TeiUtils.XMLFindTag(AXMLText, APos);
           if LCurrTagName.EndsWith('/') then
             Continue;
           if LCurrTagName.StartsWith('/') then
@@ -108,7 +98,7 @@ var
   LPos: Integer;
 begin
   LPos := 0;
-  XMLFindTag(AXMLText, LPos);
+  TeiUtils.XMLFindTag(AXMLText, LPos);
   XMLToProp(AInvoice, AXMLText, LPos);
 end;
 
