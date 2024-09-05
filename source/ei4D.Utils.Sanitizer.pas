@@ -318,18 +318,18 @@ var
   LTagBegin, LTagEnd, LTagLength: integer;
 begin
   // Loop for all stylesheet tags
-  LTagBegin := Pos('<!', AXMLText);
+  LTagBegin := Pos('<!--', AXMLText);
   while LTagBegin > 0 do
   begin
-    LTagEnd := PosEx('>', AXMLText, LTagBegin);
-    LTagLength := LTagEnd - LTagBegin + 1; // Compresi i "<" ">"
+    LTagEnd := PosEx('-->', AXMLText, LTagBegin);
+    LTagLength := LTagEnd - LTagBegin + 3; // Compresi i "<" ">"
     // Remove StyleSheet tag
     Delete(AXMLText, LTagBegin, LTagLength);
     // Remove spaces or CR or LF after the tag
     while (AXMLText[LTagBegin] = ' ') or (AXMLText[LTagBegin] = #13) or (AXMLText[LTagBegin] = #10) do
       Delete(AXMLText, LTagBegin, 1);
     // Next tag
-    LTagBegin := Pos('<!', AXMLText);
+    LTagBegin := Pos('<!--', AXMLText);
   end;
 end;
 
