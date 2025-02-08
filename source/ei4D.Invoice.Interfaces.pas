@@ -124,7 +124,7 @@ type
     function NumeroIscrizioneAlbo: IeiString;
     [eiProp(7, o01, 10, 10)]
     function DataIscrizioneAlbo: IeiDate;
-    [eiProp(8, o11, 4, 4), eiRegEx('RF01|RF02|RF04|RF05|RF06|RF07|RF08|RF09|RF10|RF11|RF12|RF13|RF14|RF15|RF16|RF17|RF19|RF18')]
+    [eiProp(8, o11, 4, 4), eiRegEx('RF01|RF02|RF04|RF05|RF06|RF07|RF08|RF09|RF10|RF11|RF12|RF13|RF14|RF15|RF16|RF17|RF18|RF19|RF20')]
     function RegimeFiscale: IeiString;
   end;
 
@@ -379,7 +379,7 @@ type
   // ID: 2.1.1
   IDatiGeneraliDocumentoType = interface(IeiBlock)
     ['{540CBE61-D4C2-44F7-990E-DCF30C204027}']
-    [eiProp(1, o11, 4, 4), eiRegEx('TD01|TD02|TD03|TD04|TD05|TD06|TD16|TD17|TD18|TD19|TD20|TD21|TD22|TD23|TD24|TD25|TD26|TD27|TD28')]
+    [eiProp(1, o11, 4, 4), eiRegEx('TD01|TD02|TD03|TD04|TD05|TD06|TD16|TD17|TD18|TD19|TD20|TD21|TD22|TD23|TD24|TD25|TD26|TD27|TD28|TD29')]
     function TipoDocumento: IeiString;
     [eiProp(2, o11, 3, 3), eiRegEx('^[A-Z]{3}$')]
     function Divisa: IeiString;

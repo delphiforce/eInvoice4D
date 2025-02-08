@@ -5,6 +5,12 @@ interface
 uses
   ei4D.Validators.Interfaces, ei4D.Invoice.Interfaces;
 
+// Note controlli non implementati
+// 00404 duplicazione fattura
+// 00409 duplicazione fattura lotto
+// 00460 relativo a fattura semplificata
+// 00477 non possibile controllare dichiarazione d'intento
+
 type
   TeiExtraXsdValidator = class(TeiCustomValidator)
   private
@@ -15,9 +21,10 @@ type
     class procedure ValidateHeaderBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection);
     // Header validators
     class procedure ValidateHeader_00417(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
-    // in data 22/12/23 (controllo 00426) Mauri e Thomas verificata eliminazione del controllo: deve essere possibile inviare fattura senza codice destinatario e Pec (privati)
+    // in data 22/12/23 (controllo 00426) Maurizio e Thomas verificata eliminazione del controllo: deve essere possibile inviare fattura senza codice destinatario e Pec (privati)
     class procedure ValidateHeader_00426(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
     class procedure ValidateHeader_00427(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateHeader_00476(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
     { TODO : Implementare ? (controllo autofattura soggetti uguali TD non autofattura) }
     // class procedure ValidateHeader_Autofattura
     // Body validators
@@ -46,6 +53,8 @@ type
       const AResult: IeiValidatorsResultCollection);
     class procedure ValidateHeaderBody_00473(const AHeader: IFatturaElettronicaHeaderType; const ABody: IFatturaElettronicaBodyType;
       const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateHeaderBody_00475(const AHeader: IFatturaElettronicaHeaderType; const ABody: IFatturaElettronicaBodyType;
+      const AResult: IeiValidatorsResultCollection);
   public
     class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection); override;
   end;
@@ -53,8 +62,13 @@ type
 implementation
 
 uses
-  ei4D.Invoice.Prop.Interfaces, System.Math, ei4D.Validators.Factory,
-  System.SysUtils, System.RegularExpressions, System.Classes;
+  ei4D.Invoice.Prop.Interfaces,
+  System.Math,
+  ei4D.Validators.Factory,
+  System.SysUtils,
+  System.RegularExpressions,
+  System.Classes,
+  System.StrUtils;
 
 { TeiExtraXsdValidator }
 
@@ -131,6 +145,7 @@ begin
   ValidateHeader_00417(AHeader, AResult);
   ValidateHeader_00426(AHeader, AResult);
   ValidateHeader_00427(AHeader, AResult);
+  ValidateHeader_00476(AHeader, AResult);
   // Add header validators here
 end;
 
@@ -146,6 +161,7 @@ begin
     ValidateHeaderBody_00471(AInvoice.FatturaElettronicaHeader, LBody, AResult);
     ValidateHeaderBody_00472(AInvoice.FatturaElettronicaHeader, LBody, AResult);
     ValidateHeaderBody_00473(AInvoice.FatturaElettronicaHeader, LBody, AResult);
+    ValidateHeaderBody_00475(AInvoice.FatturaElettronicaHeader, LBody, AResult);
     // Add header body validators here
   end;
 end;
@@ -200,14 +216,15 @@ end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody_00471(const AHeader: IFatturaElettronicaHeaderType;
   const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+const
+  LArrTD: TArray<String> = ['TD01', 'TD02', 'TD03', 'TD06', 'TD16', 'TD17', 'TD18', 'TD19', 'TD20', 'TD24', 'TD25', 'TD28', 'TD29'];
 var
   LTipoDocumento: string;
 begin
   // Codice 00471 per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> il cedente/prestatore non può essere uguale al cessionario/committente
   // NOTA: il controllo del codice fiscale non viene effettuato perchè la documentazione prevede di risalire all'aliquota iva tramite Anagrafe Tributaria (saltiamo quindi il controllo dei codici fiscali)
   LTipoDocumento := ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.Value;
-  if ((LTipoDocumento = 'TD16') or (LTipoDocumento = 'TD17') or (LTipoDocumento = 'TD18') or (LTipoDocumento = 'TD19') or
-    (LTipoDocumento = 'TD20')) then
+  if MatchStr(LTipoDocumento, LArrTD) then
   begin
     if ((not AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdCodice.IsEmptyOrZero) and
       (not AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IdCodice.IsEmptyOrZero)) and
@@ -239,17 +256,25 @@ end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody_00473(const AHeader: IFatturaElettronicaHeaderType;
   const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+const
+  LArrTD: TArray<String> = ['TD17', 'TD18', 'TD19', 'TD28'];
 var
   LTipoDocumento: string;
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00473 Per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non è ammesso il valore IT nell’elemento 1.2.1.1.1 <IdPaese>
   LTipoDocumento := ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.Value;
-  if ((LTipoDocumento = 'TD17') or (LTipoDocumento = 'TD18') or (LTipoDocumento = 'TD19')) and
-    (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value = 'IT') then
+  // autofatture per acquisti dall'estero
+  if MatchStr(LTipoDocumento, LTipoDocumento) and (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value = 'IT') then
     AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
       'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non è ammesso il valore IT nell’elemento 1.2.1.1.1 <IdPaese>',
       vkExtraXSD));
+  // autofatture per acquisti dall'estero
+  if (LTipoDocumento = 'TD29') and (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value <> 'IT') then
+    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
+      'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non può essere diverso da IT nell’elemento 1.2.1.1.1 <IdPaese>',
+      vkExtraXSD));
+  // omesso il controllo per TD17 e TD19 (che possono avere OO, operazioni effettuate da residenti Livigno e Campione d'Italia, in quanto impliciti nel controllo IdPaese che sia diverso da IT
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeader_00417(const AHeader: IFatturaElettronicaHeaderType;
@@ -295,6 +320,18 @@ begin
   then
     AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00427',
       '1.1.4 <CodiceDestinatario> di 6 caratteri non ammesso a fronte di 1.1.3 <FormatoTrasmissione> con valore FPR12', vkExtraXSD));
+end;
+
+class procedure TeiExtraXsdValidator.ValidateHeader_00476(const AHeader: IFatturaElettronicaHeaderType;
+  const AResult: IeiValidatorsResultCollection);
+begin
+  // ---------------------------------------------------------------------------------------
+  // Codice 00476 in caso di fatture ordinarie: gli elementi 1.2.1.1.1 <IdPaese> e 1.4.1.1.1 <IdPaese> non possono essere entrambi valorizzati con codice diverso da IT
+  if (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value <> 'IT') and
+    (AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value <> 'IT') then
+    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00476',
+      'in caso di fatture ordinarie: gli elementi 1.2.1.1.1 <IdPaese> e 1.4.1.1.1 <IdPaese> non possono essere entrambi valorizzati con codice diverso da IT',
+      vkExtraXSD));
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00400_00401(const ABody: IFatturaElettronicaBodyType;
@@ -857,6 +894,23 @@ begin
           [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
     end;
   end;
+end;
+
+class procedure TeiExtraXsdValidator.ValidateHeaderBody_00475(const AHeader: IFatturaElettronicaHeaderType;
+  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+const
+  LArrTD: TArray<String> = ['TD16', 'TD17', 'TD18', 'TD19', 'TD20', 'TD22', 'TD23', 'TD28', 'TD29'];
+var
+  LProp: IeIBaseProperty;
+  LDettaglioLinea: IDettaglioLineeType;
+begin
+  // ---------------------------------------------------------------------------------------
+  // Codice 00475 per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> deve essere presente l’elemento 1.4.1.1 <IdFiscaleIVA> del cessionario/committente
+  if MatchStr(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.Value, LArrTD) and
+    AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IsNull then
+    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00475',
+      'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> deve essere presente l’elemento 1.4.1.1 <IdFiscaleIVA> del cessionario/committente',
+      vkExtraXSD));
 end;
 
 end.
