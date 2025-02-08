@@ -47,7 +47,7 @@ uses
   ei4D.Utils.P7mExtractor, System.Classes, System.SysUtils;
 
 const
-  EI4D_VERSION = '2.0 (preview)';
+  EI4D_VERSION = '2.0.0 (RC1) - Spec. AdE 1.9';
 
 type
 
