@@ -19,3 +19,5 @@ Delphi Force Developer Team
 - Maurizio del Magno
 - Omar Bossoni
 - Thomas Ranzetti
+
+Refactoring della versione https://github.com/delphiforce/eInvoice4D.old
