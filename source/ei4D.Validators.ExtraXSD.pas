@@ -265,7 +265,7 @@ begin
   // Codice 00473 Per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non è ammesso il valore IT nell’elemento 1.2.1.1.1 <IdPaese>
   LTipoDocumento := ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.Value;
   // autofatture per acquisti dall'estero
-  if MatchStr(LTipoDocumento, LTipoDocumento) and (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value = 'IT') then
+  if MatchStr(LTipoDocumento, LArrTD) and (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value = 'IT') then
     AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
       'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non è ammesso il valore IT nell’elemento 1.2.1.1.1 <IdPaese>',
       vkExtraXSD));
@@ -900,9 +900,6 @@ class procedure TeiExtraXsdValidator.ValidateHeaderBody_00475(const AHeader: IFa
   const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
 const
   LArrTD: TArray<String> = ['TD16', 'TD17', 'TD18', 'TD19', 'TD20', 'TD22', 'TD23', 'TD28', 'TD29'];
-var
-  LProp: IeIBaseProperty;
-  LDettaglioLinea: IDettaglioLineeType;
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00475 per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> deve essere presente l’elemento 1.4.1.1 <IdFiscaleIVA> del cessionario/committente
