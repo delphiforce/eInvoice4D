@@ -44,8 +44,6 @@ interface
 uses ei4D.Response.Interfaces, ei4D.Invoice.Interfaces, System.SysUtils;
 
 type
-  TeiRouteType = (rtDirect, rtProxyfied);
-
   IeiProvider = interface
     ['{DC65CE1B-2574-4044-9E86-61F132504116}']
     // Connect/Disconnect
