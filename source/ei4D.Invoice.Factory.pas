@@ -4,7 +4,7 @@ interface
 
 uses
   ei4D.Invoice.Prop.Interfaces, system.Rtti,
-  system.TypInfo, system.Generics.Collections, System.Classes,
+  system.TypInfo, system.Generics.Collections, system.Classes,
   ei4D.Invoice.Interfaces, ei4D;
 
 type
@@ -13,9 +13,11 @@ type
   private
     class function InternalNewInvoiceFromString(AStringXML: String; const AParams: IeiParams): IFatturaElettronicaType;
   public
-    class function NewBaseProp(const AID, AName: String; const AOccurrence: TeiOccurrence; const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String): IeiBaseProperty;
-    class function NewProperty(const ATypeInfo: PTypeInfo; const AID, AName: String; const AParams: IeiParams; const AOccurrence: TeiOccurrence;
+    class function NewBaseProp(const AID, AName: String; const AOccurrence: TeiOccurrence;
       const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String): IeiBaseProperty;
+    class function NewProperty(const ATypeInfo: PTypeInfo; const AID, AName: String; const AParams: IeiParams;
+      const AOccurrence: TeiOccurrence; const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String)
+      : IeiBaseProperty;
 
     class function NewInvoice(const AParams: IeiParams): IFatturaElettronicaType;
     class function NewInvoiceFromString(const AStringXML: String; const AParams: IeiParams): IFatturaElettronicaType;
@@ -35,7 +37,7 @@ uses
   system.SysUtils, ei4D.Invoice.Prop.List,
   ei4D.Invoice.Prop.List.Enumerator, ei4D.Params,
   ei4D.Serializer.Factory, ei4D.Utils.Sanitizer,
-  ei4D.Utils, System.NetEncoding, ei4D.Invoice.Collections;
+  ei4D.Utils, system.NetEncoding, ei4D.Invoice.Collections;
 
 { TeiPropFactory }
 
@@ -46,13 +48,15 @@ begin
   TeiSerializerFactory.NewSerializer.FromXML(Result, AStringXML);
 end;
 
-class function TeiInvoiceFactory.NewBaseProp(const AID, AName: String; const AOccurrence: TeiOccurrence; const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String): IeiBaseProperty;
+class function TeiInvoiceFactory.NewBaseProp(const AID, AName: String; const AOccurrence: TeiOccurrence;
+  const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String): IeiBaseProperty;
 begin
-  Result := TeiBaseProperty.Create(AID, AName, AOccurrence, AMaxLength, AMinLength, AMaxDecimals, ADecimals, ARegEx); // Params value are not important
+  Result := TeiBaseProperty.Create(AID, AName, AOccurrence, AMaxLength, AMinLength, AMaxDecimals, ADecimals, ARegEx);
+  // Params value are not important
 end;
 
-class function TeiInvoiceFactory.NewProperty(const ATypeInfo: PTypeInfo; const AID, AName: String; const AParams: IeiParams; const AOccurrence: TeiOccurrence;
-      const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String): IeiBaseProperty;
+class function TeiInvoiceFactory.NewProperty(const ATypeInfo: PTypeInfo; const AID, AName: String; const AParams: IeiParams;
+  const AOccurrence: TeiOccurrence; const AMaxLength, AMinLength, AMaxDecimals, ADecimals: Integer; const ARegEx: String): IeiBaseProperty;
 var
   LGUID: TGUID;
 begin
@@ -75,9 +79,11 @@ begin
     Result := TeiBlockProperty.Create(ATypeInfo, AID, AName, AParams, AOccurrence);
 end;
 
-class function TeiInvoiceFactory.NewInvoice(const AParams: IeiParams): IFatturaElettronicaType;
+class function TeiInvoiceFactory.NewInvoice(const AParams: IeiParams)
+  : IFatturaElettronicaType;
 begin
-  Result := TeiBlockProperty.Create(TypeInfo(IFatturaElettronicaType), '', 'FatturaElettronica', AParams, oUndefined) as IFatturaElettronicaType;
+  Result := TeiBlockProperty.Create(TypeInfo(IFatturaElettronicaType), '', 'FatturaElettronica', AParams, oUndefined)
+    as IFatturaElettronicaType;
 end;
 
 class function TeiInvoiceFactory.NewInvoiceCollection: IeiInvoiceCollection;
@@ -112,7 +118,8 @@ begin
   Result := InternalNewInvoiceFromString(AStringXML, AParams);
 end;
 
-class function TeiInvoiceFactory.NewInvoiceFromStringBase64(const ABase64StringXML: String; const AParams: IeiParams): IFatturaElettronicaType;
+class function TeiInvoiceFactory.NewInvoiceFromStringBase64(const ABase64StringXML: String; const AParams: IeiParams)
+  : IFatturaElettronicaType;
 begin
   Result := InternalNewInvoiceFromString(TNetEncoding.Base64.Decode(ABase64StringXML), AParams);
 end;

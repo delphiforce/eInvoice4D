@@ -1,4 +1,4 @@
-program InvoiceModifySample;
+program InvoiceObject;
 
 uses
   Vcl.Forms,

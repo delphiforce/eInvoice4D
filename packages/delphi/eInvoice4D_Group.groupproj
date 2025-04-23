@@ -6,10 +6,7 @@
         <Projects Include="eInvoice4D.dproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\samples\InvoiceCreateSample\InvoiceCreateSample.dproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj">
+        <Projects Include="..\..\samples\InvoiceObject\InvoiceObject.dproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -29,32 +26,23 @@
     <Target Name="eInvoice4D:Make">
         <MSBuild Projects="eInvoice4D.dproj" Targets="Make"/>
     </Target>
-    <Target Name="InvoiceCreateSample">
-        <MSBuild Projects="..\..\samples\InvoiceCreateSample\InvoiceCreateSample.dproj"/>
+    <Target Name="InvoiceObject">
+        <MSBuild Projects="..\..\samples\InvoiceObject\InvoiceObject.dproj"/>
     </Target>
-    <Target Name="InvoiceCreateSample:Clean">
-        <MSBuild Projects="..\..\samples\InvoiceCreateSample\InvoiceCreateSample.dproj" Targets="Clean"/>
+    <Target Name="InvoiceObject:Clean">
+        <MSBuild Projects="..\..\samples\InvoiceObject\InvoiceObject.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="InvoiceCreateSample:Make">
-        <MSBuild Projects="..\..\samples\InvoiceCreateSample\InvoiceCreateSample.dproj" Targets="Make"/>
-    </Target>
-    <Target Name="InvoiceModifySample">
-        <MSBuild Projects="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj"/>
-    </Target>
-    <Target Name="InvoiceModifySample:Clean">
-        <MSBuild Projects="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj" Targets="Clean"/>
-    </Target>
-    <Target Name="InvoiceModifySample:Make">
-        <MSBuild Projects="..\..\samples\InvoiceModifySample\InvoiceModifySample.dproj" Targets="Make"/>
+    <Target Name="InvoiceObject:Make">
+        <MSBuild Projects="..\..\samples\InvoiceObject\InvoiceObject.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="eInvoice4D;InvoiceCreateSample;InvoiceModifySample"/>
+        <CallTarget Targets="eInvoice4D;InvoiceObject"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="eInvoice4D:Clean;InvoiceCreateSample:Clean;InvoiceModifySample:Clean"/>
+        <CallTarget Targets="eInvoice4D:Clean;InvoiceObject:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="eInvoice4D:Make;InvoiceCreateSample:Make;InvoiceModifySample:Make"/>
+        <CallTarget Targets="eInvoice4D:Make;InvoiceObject:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

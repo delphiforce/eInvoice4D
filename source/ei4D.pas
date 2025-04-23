@@ -47,12 +47,21 @@ uses
   ei4D.Utils.P7mExtractor, System.Classes, System.SysUtils;
 
 const
-  EI4D_VERSION = '2.0.0 (RC1) - Spec. AdE 1.9';
+  EI4D_VERSION = '2.0.0 (RC2) - Spec. AdE 1.9';
+
+{$REGION 'Value aliases to make sure you have to include fewer units in the "uses" part of the units that use ei4D'}
+
+  // TeiFormatoTrasmissioneType = (ftPrivati, ftPubblicaAmministrazione);
+  ftPrivati = ei4D.Invoice.Interfaces.ftPrivati;
+  ftPubblicaAmministrazione = ei4D.Invoice.Interfaces.ftPubblicaAmministrazione;
+
+{$ENDREGION}
 
 type
 
-  // Type aliases to make sure you have to include fewer units (in practice only the "DForce.ei" unit) in the "uses" part of the units that use eInvoice4D
-{$REGION 'Type aliases to make sure you have to include fewer units (in practice only the "DForce.ei" unit) in the "uses" part of the units that use eInvoice4D'}
+  // Type aliases to make sure you have to include fewer units (in practice only the "ei4D.pas" unit) in the "uses" part of the units that use eInvoice4D
+{$REGION 'Type aliases to make sure you have to include fewer units (in practice only the "ei4D.pas" unit) in the "uses" part of the units that use eInvoice4D'}
+  TeiFormatoTrasmissioneType = ei4D.Invoice.Interfaces.TeiFormatoTrasmissioneType;
   TeiResponseType = ei4D.Response.Interfaces.TeiResponseType;
 
   IeiParams = ei4D.Params.Interfaces.IeiParams;
@@ -133,7 +142,8 @@ type
     class procedure LogBlank;
     class procedure LogSeparator;
 
-    class function NewInvoice(AParams: IeiParams = nil): IFatturaElettronicaType;
+    class function NewInvoice(const AFormatoTrasmissioneType: TeiFormatoTrasmissioneType; AParams: IeiParams = nil)
+      : IFatturaElettronicaType;
     class function NewInvoiceFromString(const AStringXML: String; AParams: IeiParams = nil): IFatturaElettronicaType;
     class function NewInvoiceFromStringBase64(const ABase64StringXML: String; AParams: IeiParams = nil): IFatturaElettronicaType;
     class function NewInvoiceFromFile(const AFileName: String; AParams: IeiParams = nil): IFatturaElettronicaType;
@@ -154,7 +164,8 @@ type
     class function NewResponse: IeiResponse;
 
     class function ValidateInvoice(const AInvoice: IFatturaElettronicaType): IeiValidatorsResultCollection; overload;
-    class function ValidateInvoice(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidatorsResultCollection; overload;
+    class function ValidateInvoice(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind)
+      : IeiValidatorsResultCollection; overload;
   end;
 
 implementation
@@ -235,10 +246,12 @@ begin
   TeiLogger.LogW(ALogMessage);
 end;
 
-class function ei.NewInvoice(AParams: IeiParams = nil): IFatturaElettronicaType;
+class function ei.NewInvoice(const AFormatoTrasmissioneType: TeiFormatoTrasmissioneType; AParams: IeiParams = nil): IFatturaElettronicaType;
 begin
   TeiParamsSingleton.CheckParams(AParams);
   Result := TeiInvoiceFactory.NewInvoice(AParams);
+  Result.FatturaElettronicaHeader.DatiTrasmissione.FormatoTrasmissione.Value :=
+    TeiUtils.FormatoTrasmissioneTypeToString(AFormatoTrasmissioneType);
 end;
 
 class function ei.NewInvoiceCollection: IeiInvoiceCollection;
