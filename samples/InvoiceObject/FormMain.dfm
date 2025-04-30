@@ -29,9 +29,6 @@ object MainForm: TMainForm
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 0
-    ExplicitLeft = -6
-    ExplicitTop = -3
-    ExplicitHeight = 630
     object Label3: TLabel
       Left = 0
       Top = 667
@@ -46,7 +43,6 @@ object MainForm: TMainForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      ExplicitTop = 568
       ExplicitWidth = 51
     end
     object GroupBox1: TGroupBox
@@ -181,7 +177,6 @@ object MainForm: TMainForm
       TabOrder = 4
       TickMarks = tmBoth
       OnChange = TrackBar1Change
-      ExplicitTop = 585
     end
     object Panel2: TPanel
       Left = 8
@@ -2652,9 +2647,6 @@ object MainForm: TMainForm
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    ExplicitLeft = 209
-    ExplicitWidth = 850
-    ExplicitHeight = 570
     object Label2: TLabel
       Left = 0
       Top = 0
@@ -2704,7 +2696,6 @@ object MainForm: TMainForm
       ParentFont = False
       ScrollBars = ssBoth
       TabOrder = 0
-      ExplicitHeight = 399
     end
     object Panel1: TPanel
       Left = 0
@@ -2714,9 +2705,6 @@ object MainForm: TMainForm
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 48
-      ExplicitTop = 133
-      ExplicitWidth = 641
       object Label1: TLabel
         Left = 0
         Top = 0
@@ -2734,7 +2722,6 @@ object MainForm: TMainForm
         ParentColor = False
         ParentFont = False
         Transparent = False
-        ExplicitTop = 21
         ExplicitWidth = 181
       end
       object MemoValidationResults: TMemo
@@ -2753,7 +2740,6 @@ object MainForm: TMainForm
         ParentFont = False
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitWidth = 641
       end
     end
   end

@@ -155,7 +155,7 @@
         <DCCReference Include="..\..\source\ei4D.Validators.Factory.pas"/>
         <DCCReference Include="..\..\source\ei4D.Validators.Core.pas"/>
         <DCCReference Include="..\..\source\ei4D.Validators.Notary.pas"/>
-        <DCCReference Include="..\..\source\ei4D.Validators.ValidatorsResult.pas"/>
+        <DCCReference Include="..\..\source\ei4D.Validators.ValidationResult.pas"/>
         <DCCReference Include="..\..\source\ei4D.Validators.XSD.pas"/>
         <DCCReference Include="..\..\source\ei4D.Validators.ExtraXSD.pas"/>
         <DCCReference Include="..\..\source\ei4D.Provider.OSItalia.pas"/>
@@ -196,7 +196,6 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\eInvoice4D.bpl" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\22.0\Bpl\eInvoice4D.bpl" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="OSX32">

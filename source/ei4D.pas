@@ -71,8 +71,8 @@ type
   IeiResponseCollection = ei4D.Response.Interfaces.IeiResponseCollection;
   IeiInvoiceIDCollection = ei4D.Invoice.Interfaces.IeiInvoiceIDCollection;
 
-  IeiValidatorsResultCollection = ei4D.Validators.Interfaces.IeiValidatorsResultCollection;
-  IeiValidatorsResult = ei4D.Validators.Interfaces.IeiValidatorsResult;
+  IeiValidationResultCollection = ei4D.Validators.Interfaces.IeiValidationResultCollection;
+  IeiValidationResult = ei4D.Validators.Interfaces.IeiValidationResult;
 
   IeiProvider = ei4D.Provider.Interfaces.IeiProvider;
 
@@ -163,9 +163,9 @@ type
 
     class function NewResponse: IeiResponse;
 
-    class function ValidateInvoice(const AInvoice: IFatturaElettronicaType): IeiValidatorsResultCollection; overload;
+    class function ValidateInvoice(const AInvoice: IFatturaElettronicaType): IeiValidationResultCollection; overload;
     class function ValidateInvoice(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind)
-      : IeiValidatorsResultCollection; overload;
+      : IeiValidationResultCollection; overload;
   end;
 
 implementation
@@ -340,7 +340,7 @@ begin
   Result := TeiUtils.StringToResponseType(AResponseType);
 end;
 
-class function ei.ValidateInvoice(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidatorsResultCollection;
+class function ei.ValidateInvoice(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidationResultCollection;
 begin
   Result := TeiValidatorRegister.Validate(AInvoice, AKind);
 end;
@@ -350,7 +350,7 @@ begin
   Result := EI4D_VERSION;
 end;
 
-class function ei.ValidateInvoice(const AInvoice: IFatturaElettronicaType): IeiValidatorsResultCollection;
+class function ei.ValidateInvoice(const AInvoice: IFatturaElettronicaType): IeiValidationResultCollection;
 begin
   Result := TeiValidatorRegister.ValidateAll(AInvoice);
 end;

@@ -52,7 +52,7 @@ type
     FInvoice: IFatturaElettronicaType;
     procedure CheckInvoiceInstance;
     procedure UpdateMemoXML;
-    procedure UpdateMemoValidationResults(const AValidatorsResult: IeiValidatorsResultCollection);
+    procedure UpdateMemoValidationResults(const AValidationResultCollection: IeiValidationResultCollection);
   public
     { Public declarations }
   end;
@@ -252,13 +252,13 @@ end;
 procedure TMainForm.ButtonValidateClick(Sender: TObject);
 var
   LInvoice: IFatturaElettronicaType;
-  LValidatorsResult: IeiValidatorsResultCollection;
+  LValidationResult: IeiValidationResultCollection;
 begin
   if not MemoXml.Lines.Text.Trim.IsEmpty then
   begin
     LInvoice := ei.NewInvoiceFromString(MemoXml.Lines.Text);
-    LValidatorsResult := ei.ValidateInvoice(LInvoice);
-    UpdateMemoValidationResults(LValidatorsResult);
+    LValidationResult := ei.ValidateInvoice(LInvoice);
+    UpdateMemoValidationResults(LValidationResult);
   end;
 end;
 
@@ -274,13 +274,13 @@ begin
   MemoValidationResults.Font.Size := TrackBar1.Position;
 end;
 
-procedure TMainForm.UpdateMemoValidationResults(const AValidatorsResult: IeiValidatorsResultCollection);
+procedure TMainForm.UpdateMemoValidationResults(const AValidationResultCollection: IeiValidationResultCollection);
 var
-  LResult: IeiValidatorsResult;
+  LResult: IeiValidationResult;
 begin
   MemoValidationResults.Clear;
-  if AValidatorsResult.Count > 0 then
-    for LResult in AValidatorsResult do
+  if AValidationResultCollection.Count > 0 then
+    for LResult in AValidationResultCollection do
     begin
       MemoValidationResults.Lines.Add(LResult.ToString);
       MemoValidationResults.Lines.Add(string.Empty);
