@@ -1,37 +1,29 @@
 object MainForm: TMainForm
   Left = 0
   Top = 0
-  Caption = 'Invoice object sample'
-  ClientHeight = 729
-  ClientWidth = 1059
+  Caption = 'Send/Receive sample'
+  ClientHeight = 804
+  ClientWidth = 1087
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -12
+  Font.Height = -19
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poScreenCenter
   WindowState = wsMaximized
-  TextHeight = 15
-  object panelActions: TPanel
+  OnCreate = FormCreate
+  TextHeight = 25
+  object PanelActions: TPanel
     Left = 0
     Top = 0
     Width = 284
-    Height = 729
+    Height = 804
     Align = alLeft
     BevelOuter = bvNone
-    Ctl3D = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -19
-    Font.Name = 'Segoe UI'
-    Font.Style = []
-    ParentCtl3D = False
-    ParentFont = False
     TabOrder = 0
-    object Label3: TLabel
+    object Label4: TLabel
       Left = 0
-      Top = 667
+      Top = 742
       Width = 284
       Height = 17
       Align = alBottom
@@ -43,132 +35,6 @@ object MainForm: TMainForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      ExplicitWidth = 51
-    end
-    object GroupBox1: TGroupBox
-      Left = 8
-      Top = 120
-      Width = 270
-      Height = 182
-      Color = clBtnFace
-      ParentBackground = False
-      ParentColor = False
-      TabOrder = 0
-      object buttonCreate: TButton
-        Left = 10
-        Top = 15
-        Width = 249
-        Height = 33
-        Caption = 'create new empty invoice'
-        TabOrder = 0
-        OnClick = buttonCreateClick
-      end
-      object ButtonHeaderData: TButton
-        Left = 10
-        Top = 56
-        Width = 249
-        Height = 33
-        Caption = 'add header'
-        TabOrder = 1
-        OnClick = ButtonHeaderDataClick
-      end
-      object ButtonBodyData: TButton
-        Left = 10
-        Top = 95
-        Width = 249
-        Height = 33
-        Caption = 'add body'
-        TabOrder = 2
-        OnClick = ButtonBodyDataClick
-      end
-      object ButtonPaymentsData: TButton
-        Left = 10
-        Top = 135
-        Width = 249
-        Height = 33
-        Caption = 'add payments'
-        TabOrder = 3
-        OnClick = ButtonPaymentsDataClick
-      end
-    end
-    object GroupBox2: TGroupBox
-      Left = 8
-      Top = 331
-      Width = 270
-      Height = 102
-      TabOrder = 1
-      object ButtonAttachmentData: TButton
-        Left = 10
-        Top = 15
-        Width = 249
-        Height = 33
-        Caption = 'add attachment from file'
-        TabOrder = 0
-        OnClick = ButtonAttachmentDataClick
-      end
-      object ButtonSaveAttachment: TButton
-        Left = 10
-        Top = 55
-        Width = 249
-        Height = 33
-        Caption = 'save attachment to file'
-        TabOrder = 1
-        OnClick = ButtonSaveAttachmentClick
-      end
-    end
-    object GroupBox4: TGroupBox
-      Left = 8
-      Top = 460
-      Width = 270
-      Height = 101
-      TabOrder = 2
-      object ButtonLoadInvoice: TButton
-        Left = 10
-        Top = 15
-        Width = 249
-        Height = 33
-        Caption = 'load invoice from file'
-        TabOrder = 0
-        OnClick = ButtonLoadInvoiceClick
-      end
-      object ButtonSaveInvoice: TButton
-        Left = 10
-        Top = 55
-        Width = 249
-        Height = 33
-        Caption = 'save invoice to file'
-        TabOrder = 1
-        OnClick = ButtonSaveInvoiceClick
-      end
-    end
-    object TGroupBox
-      Left = 8
-      Top = 590
-      Width = 270
-      Height = 62
-      TabOrder = 3
-      object ButtonValidate: TButton
-        Left = 10
-        Top = 15
-        Width = 249
-        Height = 33
-        Caption = 'validate invoice'
-        TabOrder = 0
-        OnClick = ButtonValidateClick
-      end
-    end
-    object TrackBar1: TTrackBar
-      Left = 0
-      Top = 684
-      Width = 284
-      Height = 45
-      Align = alBottom
-      Max = 36
-      Min = 10
-      Position = 10
-      TabOrder = 4
-      TickMarks = tmBoth
-      OnChange = TrackBar1Change
     end
     object Panel2: TPanel
       Left = 8
@@ -178,7 +44,7 @@ object MainForm: TMainForm
       BevelOuter = bvNone
       Color = clBlack
       ParentBackground = False
-      TabOrder = 5
+      TabOrder = 0
       object Image1: TImage
         Left = 74
         Top = 3
@@ -2628,25 +2494,210 @@ object MainForm: TMainForm
         Stretch = True
       end
     end
+    object GroupBox1: TGroupBox
+      Left = 8
+      Top = 120
+      Width = 270
+      Height = 221
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 1
+      object ProviderLabel: TLabel
+        Left = 10
+        Top = 3
+        Width = 161
+        Height = 25
+        Caption = 'Selezione provider:'
+      end
+      object Label1: TLabel
+        Left = 10
+        Top = 63
+        Width = 90
+        Height = 25
+        Caption = 'User name'
+      end
+      object Label2: TLabel
+        Left = 10
+        Top = 118
+        Width = 79
+        Height = 25
+        Caption = 'Password'
+      end
+      object ComboBoxProviders: TComboBox
+        Left = 10
+        Top = 31
+        Width = 249
+        Height = 33
+        Style = csDropDownList
+        Sorted = True
+        TabOrder = 0
+      end
+      object EditUserName: TEdit
+        Left = 10
+        Top = 88
+        Width = 249
+        Height = 33
+        TabOrder = 1
+      end
+      object EditPassword: TEdit
+        Left = 10
+        Top = 141
+        Width = 249
+        Height = 33
+        TabOrder = 2
+      end
+      object ButtonConnect: TButton
+        Left = 10
+        Top = 180
+        Width = 120
+        Height = 33
+        Caption = 'Connect'
+        TabOrder = 3
+        OnClick = ButtonConnectClick
+      end
+      object ButtonDisconnect: TButton
+        Left = 139
+        Top = 180
+        Width = 120
+        Height = 33
+        Caption = 'Disconnect'
+        TabOrder = 4
+        OnClick = ButtonDisconnectClick
+      end
+    end
+    object GroupBox2: TGroupBox
+      Left = 8
+      Top = 347
+      Width = 270
+      Height = 156
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 2
+      object FilenamesLabel: TLabel
+        Left = 10
+        Top = 46
+        Width = 142
+        Height = 25
+        Caption = 'ID Fatture inviate'
+      end
+      object ButtonSendInvoice: TButton
+        Left = 10
+        Top = 10
+        Width = 249
+        Height = 33
+        Caption = 'Invio fattura'
+        TabOrder = 0
+        OnClick = ButtonSendInvoiceClick
+      end
+      object ComboBoxFilenames: TComboBox
+        Left = 10
+        Top = 73
+        Width = 249
+        Height = 33
+        Style = csDropDownList
+        Sorted = True
+        TabOrder = 1
+      end
+      object ButtonReadNotifications: TButton
+        Left = 10
+        Top = 112
+        Width = 249
+        Height = 33
+        Caption = 'Ricevi notifiche'
+        TabOrder = 2
+        OnClick = ButtonReadNotificationsClick
+      end
+    end
+    object GroupBox3: TGroupBox
+      Left = 8
+      Top = 509
+      Width = 270
+      Height = 193
+      Color = clBtnFace
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 3
+      object PurchaseFilenameLabel: TLabel
+        Left = 12
+        Top = 46
+        Width = 179
+        Height = 25
+        Caption = 'ID Fatture da ricevere'
+      end
+      object ButtonPurchaseInvoiceList: TButton
+        Left = 10
+        Top = 10
+        Width = 249
+        Height = 33
+        Caption = 'Elenco fatture ricevute'
+        TabOrder = 0
+        OnClick = ButtonPurchaseInvoiceListClick
+      end
+      object ComboBoxPurchaseInvoiceList: TComboBox
+        Left = 10
+        Top = 73
+        Width = 249
+        Height = 33
+        Style = csDropDownList
+        Sorted = True
+        TabOrder = 1
+      end
+      object ButtonPurchaseInvoice: TButton
+        Left = 10
+        Top = 112
+        Width = 249
+        Height = 33
+        Caption = 'Ricevi fattura selezionata'
+        TabOrder = 2
+        OnClick = ButtonPurchaseInvoiceClick
+      end
+      object ButtonPurchaseNotification: TButton
+        Left = 10
+        Top = 151
+        Width = 249
+        Height = 33
+        Caption = 'Ricevi notifiche fatt. selez.'
+        TabOrder = 3
+        OnClick = ButtonPurchaseNotificationClick
+      end
+    end
+    object TrackBar1: TTrackBar
+      Left = 0
+      Top = 759
+      Width = 284
+      Height = 45
+      Align = alBottom
+      Max = 36
+      Min = 10
+      Position = 10
+      TabOrder = 4
+      TickMarks = tmBoth
+      OnChange = TrackBar1Change
+      ExplicitTop = 684
+    end
   end
-  object panelXml: TPanel
+  object Panel1: TPanel
     Left = 284
     Top = 0
-    Width = 775
-    Height = 729
+    Width = 803
+    Height = 804
     Align = alClient
     BevelOuter = bvNone
-    Color = clWhite
-    ParentBackground = False
     TabOrder = 1
-    object Label2: TLabel
+    ExplicitLeft = 512
+    ExplicitTop = 160
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object Label3: TLabel
       Left = 0
       Top = 0
-      Width = 775
+      Width = 803
       Height = 25
       Align = alTop
       Alignment = taCenter
-      Caption = 'XML'
+      Caption = 'RESULTS'
       Color = clBtnFace
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clBlue
@@ -2656,26 +2707,13 @@ object MainForm: TMainForm
       ParentColor = False
       ParentFont = False
       Transparent = False
-      ExplicitWidth = 37
+      ExplicitWidth = 72
     end
-    object Splitter1: TSplitter
-      Left = 0
-      Top = 523
-      Width = 775
-      Height = 10
-      Cursor = crVSplit
-      Align = alBottom
-      Beveled = True
-      Color = clBtnFace
-      ParentColor = False
-      ResizeStyle = rsUpdate
-      ExplicitTop = 422
-    end
-    object MemoXml: TMemo
+    object Memo: TMemo
       Left = 0
       Top = 25
-      Width = 775
-      Height = 498
+      Width = 803
+      Height = 779
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -2688,63 +2726,18 @@ object MainForm: TMainForm
       ParentFont = False
       ScrollBars = ssBoth
       TabOrder = 0
-      ExplicitLeft = 6
-      ExplicitTop = 29
-    end
-    object Panel1: TPanel
-      Left = 0
-      Top = 533
-      Width = 775
-      Height = 196
-      Align = alBottom
-      BevelOuter = bvNone
-      TabOrder = 1
-      object Label1: TLabel
-        Left = 0
-        Top = 0
-        Width = 775
-        Height = 25
-        Align = alTop
-        Alignment = taCenter
-        Caption = 'VALIDATION RESULTS'
-        Color = clBtnFace
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clBlue
-        Font.Height = -19
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentColor = False
-        ParentFont = False
-        Transparent = False
-        ExplicitWidth = 181
-      end
-      object MemoValidationResults: TMemo
-        Left = 0
-        Top = 25
-        Width = 775
-        Height = 171
-        Align = alClient
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -13
-        Font.Name = 'Segoe UI'
-        Font.Style = []
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
+      ExplicitLeft = 97
+      ExplicitTop = 106
+      ExplicitWidth = 801
+      ExplicitHeight = 777
     end
   end
-  object SaveDialog1: TSaveDialog
-    DefaultExt = 'xml'
-    FileName = 'invoice sample'
-    Left = 640
-    Top = 64
-  end
-  object OpenDialog1: TOpenDialog
-    Left = 560
-    Top = 64
+  object OpenDialog: TFileOpenDialog
+    DefaultExtension = '.xml'
+    FavoriteLinks = <>
+    FileTypes = <>
+    Options = []
+    Left = 352
+    Top = 32
   end
 end

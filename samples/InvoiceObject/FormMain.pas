@@ -22,7 +22,6 @@ type
     GroupBox2: TGroupBox;
     ButtonAttachmentData: TButton;
     ButtonSaveAttachment: TButton;
-    GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
     ButtonLoadInvoice: TButton;
     ButtonSaveInvoice: TButton;
@@ -289,10 +288,9 @@ end;
 
 procedure TMainForm.UpdateMemoXML;
 begin
+  MemoXml.Clear;
   if Assigned(FInvoice) then
-    MemoXml.Lines.Text := ei.InvoiceToString(FInvoice)
-  else
-    MemoXml.Clear;
+    MemoXml.Lines.Add(ei.InvoiceToString(FInvoice));
 end;
 
 end.
