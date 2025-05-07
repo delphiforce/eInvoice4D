@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  ei4D.Validators.Factory;
+  ei4D.Validators.Factory, System.SysUtils;
 
 { TeiValidatorRegister }
 
@@ -59,8 +59,17 @@ var
   LValidatorRegisterItem: TeiValidatorRegisterItem;
 begin
   for LValidatorRegisterItem in FContainer do
+  begin
     if LValidatorRegisterItem.Kind = AKind then
-      LValidatorRegisterItem.Validator.Validate(AInvoice, AResult);
+    begin
+      try
+        LValidatorRegisterItem.Validator.Validate(AInvoice, AResult);
+      except
+        on E: Exception do
+          AResult.Add(TeiValidatorsFactory.NewValidationResult(String.Empty, String.Empty, E.Message, vkCore));
+      end;
+    end;
+  end;
 end;
 
 class function TeiValidatorRegister.Validate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidationResultCollection;

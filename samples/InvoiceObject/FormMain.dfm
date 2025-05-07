@@ -29,6 +29,7 @@ object MainForm: TMainForm
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 0
+    ExplicitHeight = 728
     object Label3: TLabel
       Left = 0
       Top = 667
@@ -169,6 +170,7 @@ object MainForm: TMainForm
       TabOrder = 4
       TickMarks = tmBoth
       OnChange = TrackBar1Change
+      ExplicitTop = 683
     end
     object Panel2: TPanel
       Left = 8
@@ -2639,6 +2641,8 @@ object MainForm: TMainForm
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
+    ExplicitWidth = 771
+    ExplicitHeight = 728
     object Label2: TLabel
       Left = 0
       Top = 0
@@ -2688,8 +2692,8 @@ object MainForm: TMainForm
       ParentFont = False
       ScrollBars = ssBoth
       TabOrder = 0
-      ExplicitLeft = 6
-      ExplicitTop = 29
+      ExplicitWidth = 771
+      ExplicitHeight = 497
     end
     object Panel1: TPanel
       Left = 0
@@ -2699,6 +2703,8 @@ object MainForm: TMainForm
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitTop = 532
+      ExplicitWidth = 771
       object Label1: TLabel
         Left = 0
         Top = 0
@@ -2734,6 +2740,7 @@ object MainForm: TMainForm
         ParentFont = False
         ScrollBars = ssBoth
         TabOrder = 0
+        ExplicitWidth = 771
       end
     end
   end
