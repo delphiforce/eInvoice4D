@@ -47,7 +47,7 @@ uses
   ei4D.Utils.P7mExtractor, System.Classes, System.SysUtils;
 
 const
-  EI4D_VERSION = '2.0.0 (RC2) - Spec. AdE 1.9';
+  EI4D_VERSION = 'eInvoice4D 2.0.0 - Spec. AdE 1.9';
 
 {$REGION 'Value aliases to make sure you have to include fewer units in the "uses" part of the units that use ei4D'}
 

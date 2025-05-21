@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = 'Send/Receive sample'
-  ClientHeight = 804
+  ClientHeight = 812
   ClientWidth = 1087
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -17,13 +17,17 @@ object MainForm: TMainForm
     Left = 0
     Top = 0
     Width = 284
-    Height = 804
+    Height = 812
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitHeight = 803
+    DesignSize = (
+      284
+      812)
     object Label4: TLabel
       Left = 0
-      Top = 742
+      Top = 750
       Width = 284
       Height = 17
       Align = alBottom
@@ -35,6 +39,8 @@ object MainForm: TMainForm
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
+      ExplicitTop = 742
+      ExplicitWidth = 51
     end
     object Panel2: TPanel
       Left = 8
@@ -2665,7 +2671,7 @@ object MainForm: TMainForm
     end
     object TrackBar1: TTrackBar
       Left = 0
-      Top = 759
+      Top = 767
       Width = 284
       Height = 45
       Align = alBottom
@@ -2675,21 +2681,35 @@ object MainForm: TMainForm
       TabOrder = 4
       TickMarks = tmBoth
       OnChange = TrackBar1Change
-      ExplicitTop = 684
+      ExplicitTop = 758
+    end
+    object ButtonVersion: TButton
+      Left = 18
+      Top = 710
+      Width = 249
+      Height = 26
+      Anchors = [akLeft, akBottom]
+      Caption = 'eInvoice4D version info'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      OnClick = ButtonVersionClick
     end
   end
   object Panel1: TPanel
     Left = 284
     Top = 0
     Width = 803
-    Height = 804
+    Height = 812
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
-    ExplicitLeft = 512
-    ExplicitTop = 160
-    ExplicitWidth = 185
-    ExplicitHeight = 41
+    ExplicitWidth = 799
+    ExplicitHeight = 803
     object Label3: TLabel
       Left = 0
       Top = 0
@@ -2713,7 +2733,7 @@ object MainForm: TMainForm
       Left = 0
       Top = 25
       Width = 803
-      Height = 779
+      Height = 787
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -2726,10 +2746,8 @@ object MainForm: TMainForm
       ParentFont = False
       ScrollBars = ssBoth
       TabOrder = 0
-      ExplicitLeft = 97
-      ExplicitTop = 106
-      ExplicitWidth = 801
-      ExplicitHeight = 777
+      ExplicitWidth = 799
+      ExplicitHeight = 778
     end
   end
   object OpenDialog: TFileOpenDialog

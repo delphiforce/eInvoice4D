@@ -51,6 +51,7 @@ type
     Memo: TMemo;
     Label4: TLabel;
     TrackBar1: TTrackBar;
+    ButtonVersion: TButton;
     procedure ButtonSendInvoiceClick(Sender: TObject);
     procedure ButtonReadNotificationsClick(Sender: TObject);
     procedure ButtonPurchaseInvoiceListClick(Sender: TObject);
@@ -60,6 +61,7 @@ type
     procedure ButtonDisconnectClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
+    procedure ButtonVersionClick(Sender: TObject);
   strict private
     FProvider: IeiProvider;
     procedure EnableButtons(const AEnabled: Boolean);
@@ -156,6 +158,11 @@ begin
     // Show the invoice on the memo
     Memo.Text := ei.InvoiceToString(LInvoice);
   end;
+end;
+
+procedure TMainForm.ButtonVersionClick(Sender: TObject);
+begin
+  ShowMessage(ei.Version);
 end;
 
 procedure TMainForm.ButtonReadNotificationsClick(Sender: TObject);

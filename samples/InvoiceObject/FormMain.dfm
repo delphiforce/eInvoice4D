@@ -29,7 +29,11 @@ object MainForm: TMainForm
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 0
-    ExplicitHeight = 728
+    ExplicitLeft = -6
+    ExplicitTop = -3
+    DesignSize = (
+      284
+      729)
     object Label3: TLabel
       Left = 0
       Top = 667
@@ -94,7 +98,7 @@ object MainForm: TMainForm
     end
     object GroupBox2: TGroupBox
       Left = 8
-      Top = 331
+      Top = 315
       Width = 270
       Height = 102
       TabOrder = 1
@@ -119,7 +123,7 @@ object MainForm: TMainForm
     end
     object GroupBox4: TGroupBox
       Left = 8
-      Top = 460
+      Top = 428
       Width = 270
       Height = 101
       TabOrder = 2
@@ -144,7 +148,7 @@ object MainForm: TMainForm
     end
     object TGroupBox
       Left = 8
-      Top = 590
+      Top = 542
       Width = 270
       Height = 62
       TabOrder = 3
@@ -181,6 +185,7 @@ object MainForm: TMainForm
       Color = clBlack
       ParentBackground = False
       TabOrder = 5
+      StyleElements = []
       object Image1: TImage
         Left = 74
         Top = 3
@@ -2629,6 +2634,22 @@ object MainForm: TMainForm
           0000000000000000001FFFD9}
         Stretch = True
       end
+    end
+    object ButtonVersion: TButton
+      Left = 18
+      Top = 628
+      Width = 249
+      Height = 26
+      Anchors = [akLeft, akBottom]
+      Caption = 'eInvoice4D version info'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 6
+      OnClick = ButtonVersionClick
     end
   end
   object panelXml: TPanel

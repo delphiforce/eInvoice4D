@@ -35,6 +35,7 @@ type
     Label3: TLabel;
     Panel2: TPanel;
     Image1: TImage;
+    ButtonVersion: TButton;
     procedure buttonCreateClick(Sender: TObject);
     procedure ButtonValidateClick(Sender: TObject);
     procedure ButtonHeaderDataClick(Sender: TObject);
@@ -46,6 +47,7 @@ type
     procedure ButtonSaveAttachmentClick(Sender: TObject);
     procedure ActionList1Update(Action: TBasicAction; var Handled: Boolean);
     procedure TrackBar1Change(Sender: TObject);
+    procedure ButtonVersionClick(Sender: TObject);
   private
     { Private declarations }
     FInvoice: IFatturaElettronicaType;
@@ -259,6 +261,11 @@ begin
     LValidationResult := ei.ValidateInvoice(LInvoice);
     UpdateMemoValidationResults(LValidationResult);
   end;
+end;
+
+procedure TMainForm.ButtonVersionClick(Sender: TObject);
+begin
+  ShowMessage(ei.Version);
 end;
 
 procedure TMainForm.CheckInvoiceInstance;
