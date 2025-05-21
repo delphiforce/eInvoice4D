@@ -12,14 +12,14 @@ type
   TeiValidatorRegister = class
   strict private
     class var FContainer: TObjectList<TeiValidatorRegisterItem>;
-    class procedure InternalValidate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind; const AResult: IeiValidatorsResultCollection);
+    class procedure InternalValidate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind; const AResult: IeiValidationResultCollection);
   private
     class procedure Build;
     class procedure CleanUp;
   public
     class procedure RegisterValidator(const AValidator: TeiCustomValidatorRef; const AKind: TeiValidatorKind);
-    class function Validate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidatorsResultCollection;
-    class function ValidateAll(const AInvoice: IFatturaElettronicaType): IeiValidatorsResultCollection;
+    class function Validate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidationResultCollection;
+    class function ValidateAll(const AInvoice: IFatturaElettronicaType): IeiValidationResultCollection;
   end;
 
   TeiValidatorRegisterItem = class
@@ -35,7 +35,7 @@ type
 implementation
 
 uses
-  ei4D.Validators.Factory;
+  ei4D.Validators.Factory, System.SysUtils;
 
 { TeiValidatorRegister }
 
@@ -54,26 +54,35 @@ begin
   FContainer.Add(TeiValidatorRegisterItem.Create(AValidator, AKind));
 end;
 
-class procedure TeiValidatorRegister.InternalValidate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind; const AResult: IeiValidatorsResultCollection);
+class procedure TeiValidatorRegister.InternalValidate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind; const AResult: IeiValidationResultCollection);
 var
   LValidatorRegisterItem: TeiValidatorRegisterItem;
 begin
   for LValidatorRegisterItem in FContainer do
+  begin
     if LValidatorRegisterItem.Kind = AKind then
-      LValidatorRegisterItem.Validator.Validate(AInvoice, AResult);
+    begin
+      try
+        LValidatorRegisterItem.Validator.Validate(AInvoice, AResult);
+      except
+        on E: Exception do
+          AResult.Add(TeiValidatorsFactory.NewValidationResult(String.Empty, String.Empty, E.Message, vkCore));
+      end;
+    end;
+  end;
 end;
 
-class function TeiValidatorRegister.Validate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidatorsResultCollection;
+class function TeiValidatorRegister.Validate(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind): IeiValidationResultCollection;
 begin
-  Result := TeiValidatorsFactory.NewValidatorsResultCollection;
+  Result := TeiValidatorsFactory.NewValidationResultCollection;
   InternalValidate(AInvoice, AKind, Result);
 end;
 
-class function TeiValidatorRegister.ValidateAll(const AInvoice: IFatturaElettronicaType): IeiValidatorsResultCollection;
+class function TeiValidatorRegister.ValidateAll(const AInvoice: IFatturaElettronicaType): IeiValidationResultCollection;
 var
   LKind: TeiValidatorKind;
 begin
-  Result := TeiValidatorsFactory.NewValidatorsResultCollection;
+  Result := TeiValidatorsFactory.NewValidationResultCollection;
   for LKind := Low(TeiValidatorKind) to High(TeiValidatorKind) do
     InternalValidate(AInvoice, LKind, Result);
 end;

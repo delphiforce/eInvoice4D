@@ -9,9 +9,9 @@ type
 
   TeiXsdValidator = class(TeiCustomValidator)
   private
-    class procedure ValidateProp(const AProp: IeiBaseProperty; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateProp(const AProp: IeiBaseProperty; const AResult: IeiValidationResultCollection);
   public
-    class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection); override;
+    class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection); override;
   end;
 
 implementation
@@ -21,19 +21,19 @@ uses
 
 { TeiXsdValidator }
 
-class procedure TeiXsdValidator.Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection);
+class procedure TeiXsdValidator.Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection);
 begin
   ValidateProp(AInvoice, AResult);
 end;
 
-class procedure TeiXsdValidator.ValidateProp(const AProp: IeiBaseProperty; const AResult: IeiValidatorsResultCollection);
+class procedure TeiXsdValidator.ValidateProp(const AProp: IeiBaseProperty; const AResult: IeiValidationResultCollection);
 var
   LProp: IeiBaseProperty;
 begin
   if AProp.Kind = pkValue then
   begin
     if (not AProp.RegEx.IsEmpty) and (not AProp.IsEmptyOrZero) and (not TRegEx.IsMatch(AProp.ValueAsString, AProp.RegEx)) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AProp.FullQualifiedName, String.Empty,
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(AProp.FullQualifiedName, String.Empty,
         Format('Valore "%s" non valido', [AProp.ValueAsString]), vkXSD));
   end
   else

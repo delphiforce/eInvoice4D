@@ -37,7 +37,7 @@
 {  along with eInvoice4D.  If not, see <http://www.gnu.org/licenses/>.      }
 {                                                                           }
 {***************************************************************************}
-unit ei4D.Validators.ValidatorsResult;
+unit ei4D.Validators.ValidationResult;
 
 interface
 
@@ -45,9 +45,9 @@ uses ei4D.Validators.Interfaces, ei4D.GenericCollection;
 
 type
 
-  TeiValidatorsResultCollection = TeiCollection<IeiValidatorsResult>;
+  TeiValidationResultCollection = TeiCollection<IeiValidationResult>;
 
-  TeiValidatorsResult = class(TInterfacedObject, IeiValidatorsResult)
+  TeiValidationResult = class(TInterfacedObject, IeiValidationResult)
   private
     FPropertyInfo: string;
     FErrorCode: string;
@@ -71,9 +71,9 @@ implementation
 
 uses System.SysUtils, System.TypInfo;
 
-{ TeiValidatorsResult }
+{ TeiValidationResult }
 
-constructor TeiValidatorsResult.Create(const APropertyInfo, AErrorCode, AErrorMessage: string; const AValidatorKind: TeiValidatorKind);
+constructor TeiValidationResult.Create(const APropertyInfo, AErrorCode, AErrorMessage: string; const AValidatorKind: TeiValidatorKind);
 begin
   inherited Create;
   FPropertyInfo := APropertyInfo;
@@ -82,27 +82,27 @@ begin
   FValidatorKind := AValidatorKind;
 end;
 
-function TeiValidatorsResult.GetErrorCode: string;
+function TeiValidationResult.GetErrorCode: string;
 begin
   result := FErrorCode;
 end;
 
-function TeiValidatorsResult.GetErrorMessage: string;
+function TeiValidationResult.GetErrorMessage: string;
 begin
   result := FErrorMessage;
 end;
 
-function TeiValidatorsResult.GetPropertyInfo: string;
+function TeiValidationResult.GetPropertyInfo: string;
 begin
   result := FPropertyInfo;
 end;
 
-function TeiValidatorsResult.GetValidatorKind: TeiValidatorKind;
+function TeiValidationResult.GetValidatorKind: TeiValidatorKind;
 begin
   Result := FValidatorKind;
 end;
 
-function TeiValidatorsResult.ToString: string;
+function TeiValidationResult.ToString: string;
 var
   LTmp: String;
 begin

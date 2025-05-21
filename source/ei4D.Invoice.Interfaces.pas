@@ -8,6 +8,8 @@ uses
 
 type
 
+  TeiFormatoTrasmissioneType = (ftPrivati, ftPubblicaAmministrazione);
+
   // USED IN: [1.2.5]
   IContattiType = interface(IeiBlock)
     ['{446AFB1D-11AD-4BBF-A216-55AD5A4CBD71}']

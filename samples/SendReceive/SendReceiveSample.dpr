@@ -1,4 +1,4 @@
-program InvoiceModifySample;
+program SendReceiveSample;
 
 uses
   Vcl.Forms,

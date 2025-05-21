@@ -84,7 +84,7 @@ contains
   ei4D.Validators.Factory in '..\..\source\ei4D.Validators.Factory.pas',
   ei4D.Validators.Core in '..\..\source\ei4D.Validators.Core.pas',
   ei4D.Validators.Notary in '..\..\source\ei4D.Validators.Notary.pas',
-  ei4D.Validators.ValidatorsResult in '..\..\source\ei4D.Validators.ValidatorsResult.pas',
+  ei4D.Validators.ValidationResult in '..\..\source\ei4D.Validators.ValidationResult.pas',
   ei4D.Validators.XSD in '..\..\source\ei4D.Validators.XSD.pas',
   ei4D.Validators.ExtraXSD in '..\..\source\ei4D.Validators.ExtraXSD.pas',
   ei4D.Provider.OSItalia in '..\..\source\ei4D.Provider.OSItalia.pas';

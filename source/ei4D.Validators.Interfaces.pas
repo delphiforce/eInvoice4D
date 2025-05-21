@@ -9,7 +9,7 @@ type
 
   TeiValidatorKind = (vkCore, vkXSD, vkExtraXSD);
 
-  IeiValidatorsResult = interface
+  IeiValidationResult = interface
     ['{1122D41C-97BE-4572-9A8A-1527170294E3}']
     function ToString: string;
     function GetPropertyInfo: string;
@@ -19,15 +19,15 @@ type
     property PropertyInfo: string read GetPropertyInfo;
     property ErrorCode: string read GetErrorCode;
     property ErrorMessage: string read GetErrorMessage;
-    property ValidtorKind: TeiValidatorKind read GetValidatorKind;
+    property ValidatorKind: TeiValidatorKind read GetValidatorKind;
   end;
 
-  IeiValidatorsResultCollection = IeiCollection<IeiValidatorsResult>;
+  IeiValidationResultCollection = IeiCollection<IeiValidationResult>;
 
   TeiCustomValidatorRef = class of TeiCustomValidator;
   TeiCustomValidator = class abstract
   public
-    class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection); virtual; abstract;
+    class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection); virtual; abstract;
   end;
 
 implementation

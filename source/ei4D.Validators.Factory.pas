@@ -9,25 +9,25 @@ type
 
   TeiValidatorsFactory = class
   public
-    class function NewValidatorsResultCollection: IeiValidatorsResultCollection;
-    class function NewValidatorsResult(const APropertyInfo, AErrorCode, AErrorMessage: string; const AValidatorKind: TeiValidatorKind): IeiValidatorsResult;
+    class function NewValidationResultCollection: IeiValidationResultCollection;
+    class function NewValidationResult(const APropertyInfo, AErrorCode, AErrorMessage: string; const AValidatorKind: TeiValidatorKind): IeiValidationResult;
   end;
 
 implementation
 
 uses
-  ei4D.Validators.ValidatorsResult;
+  ei4D.Validators.ValidationResult;
 
 { TeiValidatorsFactory }
 
-class function TeiValidatorsFactory.NewValidatorsResult(const APropertyInfo, AErrorCode, AErrorMessage: string; const AValidatorKind: TeiValidatorKind): IeiValidatorsResult;
+class function TeiValidatorsFactory.NewValidationResult(const APropertyInfo, AErrorCode, AErrorMessage: string; const AValidatorKind: TeiValidatorKind): IeiValidationResult;
 begin
-  result := TeiValidatorsResult.Create(APropertyInfo, AErrorCode, AErrorMessage, AValidatorKind);
+  result := TeiValidationResult.Create(APropertyInfo, AErrorCode, AErrorMessage, AValidatorKind);
 end;
 
-class function TeiValidatorsFactory.NewValidatorsResultCollection: IeiValidatorsResultCollection;
+class function TeiValidatorsFactory.NewValidationResultCollection: IeiValidationResultCollection;
 begin
-  result := TeiValidatorsResultCollection.Create;
+  result := TeiValidationResultCollection.Create;
 end;
 
 end.

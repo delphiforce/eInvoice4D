@@ -16,47 +16,47 @@ type
   private
     class function FindAliquotaIva(const AListaAliquoteIva: array of double; const AValue: double): Boolean;
     class function FindNaturaEsenzioneIva(const AListaNaturaEsenzioneIva: array of string; const AValue: string): Boolean;
-    class procedure ValidateHeader(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateHeaderBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateHeader(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateHeaderBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection);
     // Header validators
-    class procedure ValidateHeader_00417(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateHeader_00417(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidationResultCollection);
     // in data 22/12/23 (controllo 00426) Maurizio e Thomas verificata eliminazione del controllo: deve essere possibile inviare fattura senza codice destinatario e Pec (privati)
-    class procedure ValidateHeader_00426(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateHeader_00427(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateHeader_00476(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateHeader_00426(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateHeader_00427(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateHeader_00476(const AHeader: IFatturaElettronicaHeaderType; const AResult: IeiValidationResultCollection);
     { TODO : Implementare ? (controllo autofattura soggetti uguali TD non autofattura) }
     // class procedure ValidateHeader_Autofattura
     // Body validators
-    class procedure ValidateBody_00400_00401(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00411(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00413_00414(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00415(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00418(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00419(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00420(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00421(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00422(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00423(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00424(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00425(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00429_00430(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00437_00438(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00443(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00444(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00445(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
-    class procedure ValidateBody_00474(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+    class procedure ValidateBody_00400_00401(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00411(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00413_00414(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00415(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00418(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00419(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00420(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00421(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00422(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00423(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00424(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00425(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00429_00430(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00437_00438(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00443(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00444(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00445(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
+    class procedure ValidateBody_00474(const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
     // Both Header and Body involved
     class procedure ValidateHeaderBody_00471(const AHeader: IFatturaElettronicaHeaderType; const ABody: IFatturaElettronicaBodyType;
-      const AResult: IeiValidatorsResultCollection);
+      const AResult: IeiValidationResultCollection);
     class procedure ValidateHeaderBody_00472(const AHeader: IFatturaElettronicaHeaderType; const ABody: IFatturaElettronicaBodyType;
-      const AResult: IeiValidatorsResultCollection);
+      const AResult: IeiValidationResultCollection);
     class procedure ValidateHeaderBody_00473(const AHeader: IFatturaElettronicaHeaderType; const ABody: IFatturaElettronicaBodyType;
-      const AResult: IeiValidatorsResultCollection);
+      const AResult: IeiValidationResultCollection);
     class procedure ValidateHeaderBody_00475(const AHeader: IFatturaElettronicaHeaderType; const ABody: IFatturaElettronicaBodyType;
-      const AResult: IeiValidatorsResultCollection);
+      const AResult: IeiValidationResultCollection);
   public
-    class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection); override;
+    class procedure Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection); override;
   end;
 
 implementation
@@ -102,14 +102,14 @@ begin
   end;
 end;
 
-class procedure TeiExtraXsdValidator.Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection);
+class procedure TeiExtraXsdValidator.Validate(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection);
 begin
   ValidateHeader(AInvoice.FatturaElettronicaHeader, AResult);
   ValidateBody(AInvoice, AResult);
   ValidateHeaderBody(AInvoice, AResult);
 end;
 
-class procedure TeiExtraXsdValidator.ValidateBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidatorsResultCollection);
+class procedure TeiExtraXsdValidator.ValidateBody(const AInvoice: IFatturaElettronicaType; const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LBody: IFatturaElettronicaBodyType;
@@ -140,7 +140,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeader(const AHeader: IFatturaElettronicaHeaderType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   ValidateHeader_00417(AHeader, AResult);
   ValidateHeader_00426(AHeader, AResult);
@@ -150,7 +150,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody(const AInvoice: IFatturaElettronicaType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LBody: IFatturaElettronicaBodyType;
@@ -167,7 +167,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00443(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiCassaPrevidenziale: IDatiCassaPrevidenzialeType;
@@ -194,7 +194,7 @@ begin
     LDatiCassaPrevidenziale := LProp as IDatiCassaPrevidenzialeType;
     if not FindAliquotaIva(LListaAliquoteIvaRiepilogo, LDatiCassaPrevidenziale.AliquotaIva.Value) then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
         FullQualifiedName, '00443',
         'non c’è corrispondenza tra i valori indicati nell’elemento 2.1.1.7.5 <AliquotaIVA> e quelli dell’elemento 2.2.2.1 <ALiquotaIVA>',
         vkExtraXSD));
@@ -207,7 +207,7 @@ begin
     LDettaglioLinea := LProp as IDettaglioLineeType;
     if not FindAliquotaIva(LListaAliquoteIvaRiepilogo, LDettaglioLinea.AliquotaIva.Value) then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00443',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00443',
         Format('non c’è corrispondenza tra i valori indicati nell’elemento 2.2.1.12 <AliquotaIVA> e quelli dell’elemento 2.2.2.1 <ALiquotaIVA> (linea:%d)',
         [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
     end;
@@ -215,7 +215,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody_00471(const AHeader: IFatturaElettronicaHeaderType;
-  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
 const
   LArrTD: TArray<String> = ['TD01', 'TD02', 'TD03', 'TD06', 'TD16', 'TD17', 'TD18', 'TD19', 'TD20', 'TD24', 'TD25', 'TD28', 'TD29'];
 var
@@ -230,14 +230,14 @@ begin
       (not AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IdCodice.IsEmptyOrZero)) and
       (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdCodice.Value = AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.
       IdCodice.Value) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName,
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName,
         '00471', 'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> il cedente/prestatore non può essere uguale al cessionario/committente',
         vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody_00472(const AHeader: IFatturaElettronicaHeaderType;
-  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00472 per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> il cedente/prestatore deve essere uguale al cessionario/committente
@@ -248,14 +248,14 @@ begin
       (not AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IdCodice.IsEmptyOrZero)) and
       (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdCodice.Value <> AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.
       IdCodice.Value) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName,
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName,
         '00472', 'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> il cedente/prestatore deve essere uguale al cessionario/committente',
         vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody_00473(const AHeader: IFatturaElettronicaHeaderType;
-  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
 const
   LArrTD: TArray<String> = ['TD17', 'TD18', 'TD19', 'TD28'];
 var
@@ -266,76 +266,76 @@ begin
   LTipoDocumento := ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.Value;
   // autofatture per acquisti dall'estero
   if MatchStr(LTipoDocumento, LArrTD) and (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value = 'IT') then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
       'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non è ammesso il valore IT nell’elemento 1.2.1.1.1 <IdPaese>',
       vkExtraXSD));
   // autofatture per acquisti dall'estero
   if (LTipoDocumento = 'TD29') and (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value <> 'IT') then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00473',
       'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non può essere diverso da IT nell’elemento 1.2.1.1.1 <IdPaese>',
       vkExtraXSD));
   // omesso il controllo per TD17 e TD19 (che possono avere OO, operazioni effettuate da residenti Livigno e Campione d'Italia, in quanto impliciti nel controllo IdPaese che sia diverso da IT
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeader_00417(const AHeader: IFatturaElettronicaHeaderType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00417 1.4.1.1 <IdFiscaleIVA> e 1.4.1.2 <CodiceFiscale> non valorizzati (almeno uno dei due deve essere valorizzato)
   if (AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IsEmptyOrZero) and
     (AHeader.CessionarioCommittente.DatiAnagrafici.CodiceFiscale.IsEmptyOrZero) then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00417',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00417',
       '1.4.1.1 <IdFiscaleIVA> e 1.4.1.2 <CodiceFiscale> non valorizzati (almeno uno dei due deve essere valorizzato)', vkExtraXSD));
 end;
 
 // in data 22/12/23 Mauri e Thomas verificata eliminazione del controllo: deve essere possibile inviare fattura senza codice destinatario e Pec (privati)
 class procedure TeiExtraXsdValidator.ValidateHeader_00426(const AHeader: IFatturaElettronicaHeaderType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   // // ---------------------------------------------------------------------------------------
   // // Codice 00426 1.1.6 <PECDestinatario> non valorizzato a fronte di 1.1.4 <CodiceDestinatario> con valore 0000000
   // if (AHeader.DatiTrasmissione.PECDestinatario.IsEmptyOrZero) and (AHeader.DatiTrasmissione.CodiceDestinatario.ValueDef = '0000000') then
-  // AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00426',
+  // AResult.Add(TeiValidatorsFactory.NewValidationResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00426',
   // '1.1.6 <PECDestinatario> non valorizzato a fronte di 1.1.4 <CodiceDestinatario> con valore 0000000', vkExtraXSD));
   // // ---------------------------------------------------------------------------------------
   // // Codice 00426 1.1.6 <PECDestinatario> valorizzato a fronte di 1.1.4 <Codice Destinatario> con valore diverso da 0000000
   // if (not AHeader.DatiTrasmissione.PECDestinatario.IsEmptyOrZero) and (AHeader.DatiTrasmissione.CodiceDestinatario.ValueDef <> '0000000')
   // then
-  // AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00426',
+  // AResult.Add(TeiValidatorsFactory.NewValidationResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00426',
   // '1.1.6 <PECDestinatario> valorizzato a fronte di 1.1.4 <Codice Destinatario> con valore diverso da 0000000', vkExtraXSD));
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeader_00427(const AHeader: IFatturaElettronicaHeaderType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00427 1.1.4 <CodiceDestinatario> di 7 caratteri non ammesso a fronte di 1.1.3 <FormatoTrasmissione> con valore FPA12
   if (AHeader.DatiTrasmissione.FormatoTrasmissione.ValueDef = 'FPA12') and (AHeader.DatiTrasmissione.CodiceDestinatario.ValueDef.Length = 7)
   then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00427',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00427',
       '1.1.4 <CodiceDestinatario> di 7 caratteri non ammesso a fronte di 1.1.3 <FormatoTrasmissione> con valore FPA12', vkExtraXSD));
   // ---------------------------------------------------------------------------------------
   // Codice 00427 1.1.4 <CodiceDestinatario> di 6 caratteri non ammesso a fronte di 1.1.3 <FormatoTrasmissione> con valore FPR12 o FSM10
   if (AHeader.DatiTrasmissione.FormatoTrasmissione.ValueDef = 'FPR12') and (AHeader.DatiTrasmissione.CodiceDestinatario.ValueDef.Length = 6)
   then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00427',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00427',
       '1.1.4 <CodiceDestinatario> di 6 caratteri non ammesso a fronte di 1.1.3 <FormatoTrasmissione> con valore FPR12', vkExtraXSD));
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeader_00476(const AHeader: IFatturaElettronicaHeaderType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00476 in caso di fatture ordinarie: gli elementi 1.2.1.1.1 <IdPaese> e 1.4.1.1.1 <IdPaese> non possono essere entrambi valorizzati con codice diverso da IT
   if (AHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value <> 'IT') and
     (AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value <> 'IT') then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00476',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(AHeader.DatiTrasmissione.CodiceDestinatario.FullQualifiedName, '00476',
       'in caso di fatture ordinarie: gli elementi 1.2.1.1.1 <IdPaese> e 1.4.1.1.1 <IdPaese> non possono essere entrambi valorizzati con codice diverso da IT',
       vkExtraXSD));
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00400_00401(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDettaglioLinea: IDettaglioLineeType;
@@ -346,20 +346,20 @@ begin
     // ---------------------------------------------------------------------------------------
     // Codice 00400 2.2.1.14 <Natura> non presente a fronte di 2.2.1.12 <AliquotaIVA> pari a zero
     if LDettaglioLinea.AliquotaIva.IsEmptyOrZero and LDettaglioLinea.Natura.IsEmptyOrZero then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(LDettaglioLinea.FullQualifiedName, '00400',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(LDettaglioLinea.FullQualifiedName, '00400',
         Format('2.2.1.14 <Natura> non presente a fronte di 2.2.1.12 <AliquotaIVA> pari a zero (linea %d)',
         [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
     // ---------------------------------------------------------------------------------------
     // - Codice 00401 2.2.1.14 <Natura> presente a fronte di 2.2.1.12 <AliquotaIVA> diversa da zero
     if (not LDettaglioLinea.AliquotaIva.IsEmptyOrZero) and (not LDettaglioLinea.Natura.IsEmptyOrZero) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(LDettaglioLinea.FullQualifiedName, '00401',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(LDettaglioLinea.FullQualifiedName, '00401',
         Format('2.2.1.14 <Natura> presente a fronte di 2.2.1.12 <AliquotaIVA> diversa da zero (linea %d)',
         [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00411(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LDettaglioLinea: IDettaglioLineeType;
   LProp: IeIBaseProperty;
@@ -381,7 +381,7 @@ begin
   begin
     if ABody.DatiGenerali.DatiGeneraliDocumento.DatiRitenuta.IsEmptyOrZero then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiRitenuta.FullQualifiedName, '00411',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiRitenuta.FullQualifiedName, '00411',
         '2.1.1.5 <DatiRitenuta> non presente a fronte di almeno un blocco 2.2.1 <DettaglioLinee> con 2.2.1.13 <Ritenuta> uguale a SI',
         vkExtraXSD));
     end;
@@ -389,7 +389,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00413_00414(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiCassaPrevidenziale: IDatiCassaPrevidenzialeType;
@@ -402,7 +402,7 @@ begin
     if (LDatiCassaPrevidenziale.AliquotaIva.IsEmptyOrZero) then
     begin
       if (LDatiCassaPrevidenziale.Natura.IsEmptyOrZero) then
-        AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
+        AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
           FullQualifiedName, '00413', '00413 2.1.1.7.7 <Natura> non presente a fronte di 2.1.1.7.5 <AliquotaIVA> pari a zero', vkExtraXSD));
     end
     else
@@ -410,7 +410,7 @@ begin
       // ---------------------------------------------------------------------------------------
       // Codice 00414 2.1.1.7.7 <Natura> presente a fronte di 2.1.1.7.5 <Aliquota IVA> diversa da zero
       if not(LDatiCassaPrevidenziale.Natura.IsEmptyOrZero) then
-        AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
+        AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
           FullQualifiedName, '00414', '00414 2.1.1.7.7 <Natura> presente a fronte di 2.1.1.7.5 <Aliquota IVA> diversa da zero',
           vkExtraXSD));
     end;
@@ -418,7 +418,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00415(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiCassaPrevidenziale: IDatiCassaPrevidenzialeType;
@@ -430,7 +430,7 @@ begin
     LDatiCassaPrevidenziale := LProp as IDatiCassaPrevidenzialeType;
     if (LDatiCassaPrevidenziale.Ritenuta.ValueDef = 'SI') and ABody.DatiGenerali.DatiGeneraliDocumento.DatiRitenuta.IsEmptyOrZero then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiRitenuta.FullQualifiedName, '00415',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiRitenuta.FullQualifiedName, '00415',
         '2.1.1.5 <DatiRitenuta> non presente a fronte di 2.1.1.7.6 <Ritenuta> uguale a SI', vkExtraXSD));
       Break;
     end;
@@ -438,7 +438,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00418(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDocumentiCorrelati: IDatiDocumentiCorrelatiType;
@@ -451,14 +451,14 @@ begin
     begin
       LDocumentiCorrelati := LProp as IDatiDocumentiCorrelatiType;
       if (ABody.DatiGenerali.DatiGeneraliDocumento.Data.Value < LDocumentiCorrelati.Data.Value) then
-        AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.FullQualifiedName, '00418',
+        AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.FullQualifiedName, '00418',
           '2.1.1.3 <Data> antecedente a 2.1.6.3 <Data>', vkExtraXSD));
     end;
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00419(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiCassaPrevidenziale: IDatiCassaPrevidenzialeType;
@@ -509,14 +509,14 @@ begin
   // Confronto il numero delle aliquote iva dichiarate nei dati di riepilogo rispetto alle dichiarate nei dettagli documento
   if Length(LListaAliquoteIvaRiepilogo) <> Length(LListaAliquoteIvaUsate) then
   begin
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00419',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00419',
       '2.2.2 <DatiRiepilogo> non presente in corrispondenza di almeno un valore di 2.1.1.7.5 <AliquotaIVA> o 2.2.1.12 <AliquotaIVA>',
       vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00420(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiRiepilogoType: IDatiRiepilogoType;
@@ -532,14 +532,14 @@ begin
       (LDatiRiepilogoType.Natura.Value = 'N6.5') or (LDatiRiepilogoType.Natura.Value = 'N6.6') or (LDatiRiepilogoType.Natura.Value = 'N6.7')
       or (LDatiRiepilogoType.Natura.Value = 'N6.8') or (LDatiRiepilogoType.Natura.Value = 'N6.9')) then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00420',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00420',
         '2.2.2.2 <Natura> con valore di tipo N6 a fronte di 2.2.2.7 <EsigibilitaIVA> uguale a S (scissione pagamenti)', vkExtraXSD));
     end;
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00421(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiRiepilogoType: IDatiRiepilogoType;
@@ -551,13 +551,13 @@ begin
     LDatiRiepilogoType := (LProp as IDatiRiepilogoType);
     if not SameValue(LDatiRiepilogoType.Imposta.Value, (LDatiRiepilogoType.AliquotaIva.Value * LDatiRiepilogoType.ImponibileImporto.Value /
       100), 0.01) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00421',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00421',
         '2.2.2.6 <Imposta> non calcolato secondo le regole definite nelle specifiche tecniche', vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00422(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 type
   TRecDatiRiepilogoIva = record
     AliquotaIva: double;
@@ -651,13 +651,13 @@ begin
     end;
 
     if not SameValue(LImponibileImporto, LPrezzoTotale + LImportoContrCassa + LArrotondamento, 1) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00422',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00422',
         '2.2.2.5 <ImponibileImporto> non calcolato secondo le regole definite nelle specifiche tecniche', vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00423(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDettaglioLinea: IDettaglioLineeType;
@@ -697,7 +697,7 @@ begin
     // Quantità specificata
     if not SameValue(LDettaglioLinea.PrezzoTotale.Value, LPrezzoUnitarioNetto * LQuantita, 0.01000001) then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00423',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00423',
         Format('2.2.1.11 <PrezzoTotale> non calcolato secondo le regole definite nelle specifiche tecniche (riga %d)',
         [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
     end;
@@ -705,7 +705,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00424(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LPropDatiCassaPrevidenziale: IeIBaseProperty;
@@ -719,7 +719,7 @@ begin
   begin
     LDatiCassaPrevidenziale := (LPropDatiCassaPrevidenziale as IDatiCassaPrevidenzialeType);
     if (not LDatiCassaPrevidenziale.AliquotaIva.IsEmptyOrZero) and (LDatiCassaPrevidenziale.AliquotaIva.Value < 1) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
         FullQualifiedName, '00424', Format('2.2.1.12 <AliquotaIVA> non indicata in termini percentuali (aliquota=%n)',
         [LDatiCassaPrevidenziale.AliquotaIva.Value]), vkExtraXSD));
   end;
@@ -729,7 +729,7 @@ begin
   begin
     LDettaglioLinea := (LProp as IDettaglioLineeType);
     if (not LDettaglioLinea.AliquotaIva.IsEmptyOrZero) and (LDettaglioLinea.AliquotaIva.Value < 1) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00424',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00424',
         Format('2.2.2.1< AliquotaIVA> non indicata in termini percentuali (linea %d)', [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
   end;
   // ---------------------------------------------------------------------------------------
@@ -738,24 +738,24 @@ begin
   begin
     LDatiRiepilogoType := (LProp as IDatiRiepilogoType);
     if (not LDatiRiepilogoType.AliquotaIva.IsEmptyOrZero) and (LDatiRiepilogoType.AliquotaIva.Value < 1) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00424',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00424',
         Format('2.1.1.7.5 <AliquotaIVA> non indicata in termini percentuali (aliquota=%n)', [LDatiRiepilogoType.AliquotaIva.Value]),
         vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00425(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00425 2.1.1.4 <Numero> non contenente caratteri numerici
   if not TRegEx.IsMatch(ABody.DatiGenerali.DatiGeneraliDocumento.Numero.ValueAsString, '\d') then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.Numero.FullQualifiedName, '00425',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.Numero.FullQualifiedName, '00425',
       '2.1.1.4 <Numero> non contenente caratteri numerici', vkExtraXSD));
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00429_00430(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiRiepilogo: IDatiRiepilogoType;
@@ -766,18 +766,18 @@ begin
     // ---------------------------------------------------------------------------------------
     // - Codice 00429 2.2.2.2 <Natura> non presente a fronte di 2.2.2.1 <AliquotaIVA> pari a zero
     if (LDatiRiepilogo.Natura.IsEmptyOrZero) and (IsZero(LDatiRiepilogo.AliquotaIva.Value)) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00429',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00429',
         '2.2.2.2 <Natura> non presente a fronte di 2.2.2.1 <AliquotaIVA> pari a zero', vkExtraXSD));
     // ---------------------------------------------------------------------------------------
     // - Codice 00430 2.2.2.2 <Natura> presente a fronte di 2.2.2.1 <Aliquota IVA> diversa da zero
     if (not LDatiRiepilogo.Natura.IsEmptyOrZero) and (not IsZero(LDatiRiepilogo.AliquotaIva.Value)) then
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00430',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DatiRiepilogo.FullQualifiedName, '00430',
         '2.2.2.2 <Natura> presente a fronte di 2.2.2.1 <Aliquota IVA> diversa da zero', vkExtraXSD));
   end;
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00437_00438(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LPropScontoMaggiorazione: IeIBaseProperty;
@@ -792,7 +792,7 @@ begin
     if not LScontoMaggiorazione.tipo.IsEmptyOrZero then
     begin
       if LScontoMaggiorazione.Percentuale.IsNull and LScontoMaggiorazione.Importo.IsNull then
-        AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.ScontoMaggiorazione.FullQualifiedName,
+        AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.ScontoMaggiorazione.FullQualifiedName,
           '00437', '2.1.1.8.2 <Percentuale> e 2.1.1.8.3 <Importo> non presenti a fronte di 2.1.1.8.1 <Tipo> valorizzato', vkExtraXSD));
     end;
   end;
@@ -807,7 +807,7 @@ begin
       if not LScontoMaggiorazione.tipo.IsEmptyOrZero then
       begin
         if LScontoMaggiorazione.Percentuale.IsNull and LScontoMaggiorazione.Importo.IsNull then
-          AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00438',
+          AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00438',
             Format('2.2.1.10.2 <Percentuale> e 2.2.1.10.3 <Importo> non presenti a fronte di 2.2.1.10.1 <Tipo> valorizzato (linea %d)',
             [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
       end;
@@ -816,7 +816,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00444(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDatiCassaPrevidenziale: IDatiCassaPrevidenzialeType;
@@ -847,7 +847,7 @@ begin
     if not LDatiCassaPrevidenziale.Natura.IsEmptyOrZero and not FindNaturaEsenzioneIva(LListaNaturaRiepilogo,
       LDatiCassaPrevidenziale.Natura.Value) then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.DatiCassaPrevidenziale.
         FullQualifiedName, '00444',
         'non c’è corrispondenza tra i valori indicati nell’elemento 2.2.1.14 <Natura> e quelli dell’elemento 2.2.2.2 <Natura>',
         vkExtraXSD));
@@ -860,7 +860,7 @@ begin
     LDettaglioLinea := LProp as IDettaglioLineeType;
     if not LDettaglioLinea.Natura.IsEmptyOrZero and not FindNaturaEsenzioneIva(LListaNaturaRiepilogo, LDettaglioLinea.Natura.Value) then
     begin
-      AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00444',
+      AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00444',
         Format('non c’è corrispondenza tra i valori indicati nell’elemento 2.1.1.7.7 <Natura> e quelli dell’elemento 2.2.2.2 <Natura> (linea:%d)',
         [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
     end;
@@ -868,7 +868,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00445(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 begin
   // ---------------------------------------------------------------------------------------
   // Codice 00445: non è più ammesso il valore generico N2, N3 o N6 come codice natura dell’operazione- --
@@ -876,7 +876,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateBody_00474(const ABody: IFatturaElettronicaBodyType;
-  const AResult: IeiValidatorsResultCollection);
+  const AResult: IeiValidationResultCollection);
 var
   LProp: IeIBaseProperty;
   LDettaglioLinea: IDettaglioLineeType;
@@ -889,7 +889,7 @@ begin
     begin
       LDettaglioLinea := LProp as IDettaglioLineeType;
       if IsZero(LDettaglioLinea.AliquotaIva.Value) then
-        AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00474',
+        AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiBeniServizi.DettaglioLinee.FullQualifiedName, '00474',
           Format('per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> non sono ammesse linee di dettaglio con l’elemento 2.2.1.12 <AliquotaIVA> contenente valore zero (linea %d)',
           [LDettaglioLinea.NumeroLinea.Value]), vkExtraXSD));
     end;
@@ -897,7 +897,7 @@ begin
 end;
 
 class procedure TeiExtraXsdValidator.ValidateHeaderBody_00475(const AHeader: IFatturaElettronicaHeaderType;
-  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidatorsResultCollection);
+  const ABody: IFatturaElettronicaBodyType; const AResult: IeiValidationResultCollection);
 const
   LArrTD: TArray<String> = ['TD16', 'TD17', 'TD18', 'TD19', 'TD20', 'TD22', 'TD23', 'TD28', 'TD29'];
 begin
@@ -905,7 +905,7 @@ begin
   // Codice 00475 per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> deve essere presente l’elemento 1.4.1.1 <IdFiscaleIVA> del cessionario/committente
   if MatchStr(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.Value, LArrTD) and
     AHeader.CessionarioCommittente.DatiAnagrafici.IdFiscaleIVA.IsNull then
-    AResult.Add(TeiValidatorsFactory.NewValidatorsResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00475',
+    AResult.Add(TeiValidatorsFactory.NewValidationResult(ABody.DatiGenerali.DatiGeneraliDocumento.TipoDocumento.FullQualifiedName, '00475',
       'per il valore indicato nell’elemento 2.1.1.1 <TipoDocumento> deve essere presente l’elemento 1.4.1.1 <IdFiscaleIVA> del cessionario/committente',
       vkExtraXSD));
 end;
