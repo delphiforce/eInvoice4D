@@ -48,15 +48,29 @@ type
   TeiLogType = (ltInformation, ltWarning, ltError);
 
   TeiLogger = class
+  private
+    class var FCustomLogger: TeiLoggerAbstractRef;
   protected
     class function GetLogger: TeiLoggerAbstractRef;
   public
+    // Metodi per dependency injection del logger
+    class procedure SetLogger(const ALoggerClass: TeiLoggerAbstractRef);
+    class procedure ResetLogger;
+    // Metodi di logging
     class procedure LogI(const ALogMessage: string);
     class procedure LogW(const ALogMessage: string);
     class procedure LogE(const ALogMessage: string); overload; // Error
     class procedure LogE(const E: Exception); overload; // Exception
     class procedure LogBlank;
     class procedure LogSeparator;
+  end;
+
+  // Logger nullo per disabilitare il logging o per i test
+  TeiNullLogger = class(TeiLoggerAbstract)
+  public
+    class procedure LogI(const ALogMessage: string); override;
+    class procedure LogW(const ALogMessage: string); override;
+    class procedure LogE(const ALogMessage: string); override;
   end;
 
 implementation
@@ -72,7 +86,20 @@ end;
 
 class function TeiLogger.GetLogger: TeiLoggerAbstractRef;
 begin
-  result := TeiPfLoggerAdapter;
+  if Assigned(FCustomLogger) then
+    Result := FCustomLogger
+  else
+    Result := TeiPfLoggerAdapter;
+end;
+
+class procedure TeiLogger.SetLogger(const ALoggerClass: TeiLoggerAbstractRef);
+begin
+  FCustomLogger := ALoggerClass;
+end;
+
+class procedure TeiLogger.ResetLogger;
+begin
+  FCustomLogger := nil;
 end;
 
 class procedure TeiLogger.LogBlank;
@@ -98,6 +125,23 @@ end;
 class procedure TeiLogger.LogW(const ALogMessage: string);
 begin
   GetLogger.LogW(ALogMessage);
+end;
+
+{ TeiNullLogger }
+
+class procedure TeiNullLogger.LogE(const ALogMessage: string);
+begin
+  // Non fa nulla - logger nullo
+end;
+
+class procedure TeiNullLogger.LogI(const ALogMessage: string);
+begin
+  // Non fa nulla - logger nullo
+end;
+
+class procedure TeiNullLogger.LogW(const ALogMessage: string);
+begin
+  // Non fa nulla - logger nullo
 end;
 
 end.
