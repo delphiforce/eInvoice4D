@@ -54,6 +54,8 @@ contains
   ei4D.Invoice.Prop.List.Enumerator in '..\..\source\ei4D.Invoice.Prop.List.Enumerator.pas',
   ei4D.Invoice.Prop.List in '..\..\source\ei4D.Invoice.Prop.List.pas',
   ei4D.Invoice.Prop in '..\..\source\ei4D.Invoice.Prop.pas',
+  ei4D.Notification.Interfaces in '..\..\source\ei4D.Notification.Interfaces.pas',
+  ei4D.Notification.Factory in '..\..\source\ei4D.Notification.Factory.pas',
   ei4D.Logger.Interfaces in '..\..\source\ei4D.Logger.Interfaces.pas',
   ei4D.Logger in '..\..\source\ei4D.Logger.pas',
   ei4D.Logger.pfLogger.Adapter in '..\..\source\ei4D.Logger.pfLogger.Adapter.pas',

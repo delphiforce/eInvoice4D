@@ -132,6 +132,8 @@
         <DCCReference Include="..\..\source\ei4D.Invoice.Prop.List.Enumerator.pas"/>
         <DCCReference Include="..\..\source\ei4D.Invoice.Prop.List.pas"/>
         <DCCReference Include="..\..\source\ei4D.Invoice.Prop.pas"/>
+        <DCCReference Include="..\..\source\ei4D.Notification.Interfaces.pas"/>
+        <DCCReference Include="..\..\source\ei4D.Notification.Factory.pas"/>
         <DCCReference Include="..\..\source\ei4D.Logger.Interfaces.pas"/>
         <DCCReference Include="..\..\source\ei4D.Logger.pas"/>
         <DCCReference Include="..\..\source\ei4D.Logger.pfLogger.Adapter.pas"/>

@@ -44,7 +44,8 @@ interface
 uses
   ei4D.Response.Interfaces, ei4D.Params.Interfaces, ei4D.Invoice.Interfaces,
   ei4D.Validators.Interfaces, ei4D.Provider.Interfaces,
-  ei4D.Utils.P7mExtractor, System.Classes, System.SysUtils;
+  ei4D.Utils.P7mExtractor, ei4D.Notification.Interfaces,
+  System.Classes, System.SysUtils;
 
 const
   EI4D_VERSION = 'eInvoice4D 2.0.0 - Spec. AdE 1.9';
@@ -120,6 +121,12 @@ type
   IDatiPagamentoType = ei4D.Invoice.Interfaces.IDatiPagamentoType;
   // Invoice collection
   IeiInvoiceCollection = ei4D.Invoice.Interfaces.IeiInvoiceCollection;
+
+  // Notification - Notifica di Scarto (NS)
+  INotificaScartoType = ei4D.Notification.Interfaces.INotificaScartoType;
+  IErroreType = ei4D.Notification.Interfaces.IErroreType;
+  IListaErroriType = ei4D.Notification.Interfaces.IListaErroriType;
+  IRiferimentoArchivioType = ei4D.Notification.Interfaces.IRiferimentoArchivioType;
 {$ENDREGION}
 
   ei = class
@@ -166,6 +173,20 @@ type
     class function ValidateInvoice(const AInvoice: IFatturaElettronicaType): IeiValidationResultCollection; overload;
     class function ValidateInvoice(const AInvoice: IFatturaElettronicaType; const AKind: TeiValidatorKind)
       : IeiValidationResultCollection; overload;
+
+    // Notifica di Scarto (NS) - Deserializzazione
+    class function NewNotificaScarto(AParams: IeiParams = nil): INotificaScartoType;
+    class function NewNotificaScartoFromString(const AStringXML: String; AParams: IeiParams = nil): INotificaScartoType;
+    class function NewNotificaScartoFromStringBase64(const ABase64StringXML: String; AParams: IeiParams = nil): INotificaScartoType;
+    class function NewNotificaScartoFromFile(const AFileName: String; AParams: IeiParams = nil): INotificaScartoType;
+    class function NewNotificaScartoFromStream(const AStream: TStream; AParams: IeiParams = nil): INotificaScartoType;
+    class function NewNotificaScartoFromStreamBase64(const AStream: TStream; AParams: IeiParams = nil): INotificaScartoType;
+    // Notifica di Scarto (NS) - Serializzazione
+    class function NotificaScartoToString(const ANotifica: INotificaScartoType): String;
+    class function NotificaScartoToStringBase64(const ANotifica: INotificaScartoType): String;
+    class procedure NotificaScartoToFile(const ANotifica: INotificaScartoType; const AFileName: String);
+    class procedure NotificaScartoToStream(const ANotifica: INotificaScartoType; const AStream: TStream);
+    class procedure NotificaScartoToStreamBase64(const ANotifica: INotificaScartoType; const AStream: TStream);
   end;
 
 implementation
@@ -175,7 +196,7 @@ uses
   System.NetEncoding, ei4D.Params.Singleton, ei4D.Invoice.Factory,
   ei4D.Params.Factory, ei4D.Provider.Register, ei4D.Response.Factory,
   ei4D.Validators.Factory, ei4D.Provider.Notary, ei4D.Validators.Notary,
-  ei4D.Validators.Register;
+  ei4D.Validators.Register, ei4D.Notification.Factory;
 
 { ei }
 class procedure ei.LogE(const ALogMessage: string);
@@ -358,6 +379,78 @@ end;
 class procedure ei.SetCustomExtractP7mMethod(const AMethod: TeiExtractP7mMethod);
 begin
   TExtractP7m.SetCustomExtractP7mMethod(AMethod);
+end;
+
+{ Notifica di Scarto (NS) }
+
+class function ei.NewNotificaScarto(AParams: IeiParams): INotificaScartoType;
+begin
+  TeiParamsSingleton.CheckParams(AParams);
+  Result := TeiNotificationFactory.NewNotificaScarto(AParams);
+end;
+
+class function ei.NewNotificaScartoFromFile(const AFileName: String; AParams: IeiParams): INotificaScartoType;
+begin
+  TeiParamsSingleton.CheckParams(AParams);
+  Result := TeiNotificationFactory.NewNotificaScartoFromFile(AFileName, AParams);
+end;
+
+class function ei.NewNotificaScartoFromStream(const AStream: TStream; AParams: IeiParams): INotificaScartoType;
+begin
+  TeiParamsSingleton.CheckParams(AParams);
+  Result := TeiNotificationFactory.NewNotificaScartoFromStream(AStream, AParams);
+end;
+
+class function ei.NewNotificaScartoFromStreamBase64(const AStream: TStream; AParams: IeiParams): INotificaScartoType;
+begin
+  TeiParamsSingleton.CheckParams(AParams);
+  Result := TeiNotificationFactory.NewNotificaScartoFromStreamBase64(AStream, AParams);
+end;
+
+class function ei.NewNotificaScartoFromString(const AStringXML: String; AParams: IeiParams): INotificaScartoType;
+begin
+  TeiParamsSingleton.CheckParams(AParams);
+  Result := TeiNotificationFactory.NewNotificaScartoFromString(AStringXML, AParams);
+end;
+
+class function ei.NewNotificaScartoFromStringBase64(const ABase64StringXML: String; AParams: IeiParams): INotificaScartoType;
+begin
+  TeiParamsSingleton.CheckParams(AParams);
+  Result := TeiNotificationFactory.NewNotificaScartoFromStringBase64(ABase64StringXML, AParams);
+end;
+
+class function ei.NotificaScartoToString(const ANotifica: INotificaScartoType): String;
+begin
+  Result := TeiSerializerFactory.NewSerializer.ToXML(ANotifica);
+  Result.Insert(0, '<?xml version="1.0" encoding="UTF-8"?>' + sLineBreak);
+  TeiSanitizer.SanitizeToSendXML(Result);
+end;
+
+class function ei.NotificaScartoToStringBase64(const ANotifica: INotificaScartoType): String;
+begin
+  Result := TNetEncoding.Base64.Encode(NotificaScartoToString(ANotifica));
+end;
+
+class procedure ei.NotificaScartoToFile(const ANotifica: INotificaScartoType; const AFileName: String);
+var
+  LFileStream: TFileStream;
+begin
+  LFileStream := TFileStream.Create(AFileName, fmCreate);
+  try
+    TeiUtils.StringToStream(NotificaScartoToString(ANotifica), LFileStream);
+  finally
+    LFileStream.Free;
+  end;
+end;
+
+class procedure ei.NotificaScartoToStream(const ANotifica: INotificaScartoType; const AStream: TStream);
+begin
+  TeiUtils.StringToStream(NotificaScartoToString(ANotifica), AStream);
+end;
+
+class procedure ei.NotificaScartoToStreamBase64(const ANotifica: INotificaScartoType; const AStream: TStream);
+begin
+  TeiUtils.StringToStream(NotificaScartoToStringBase64(ANotifica), AStream);
 end;
 
 initialization
