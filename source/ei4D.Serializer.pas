@@ -3,7 +3,7 @@ unit ei4D.Serializer;
 interface
 
 uses
-  ei4D.Serializer.Interfaces, ei4D.Invoice.Interfaces, ei4D.Invoice.Prop.Interfaces;
+  ei4D.Serializer.Interfaces, ei4D.Invoice.Prop.Interfaces;
 
 const
   INDENT_UNIT = 2;
@@ -16,8 +16,8 @@ type
     function XMLExtractPropValue(const AXMLText, APropName: String; var APos: Integer): String;
     procedure XMLToProp(const AProp: IeiBaseProperty; const AXMLText: String; var APos: Integer);
   public
-    procedure FromXML(const AInvoice: IFatturaElettronicaType; const AXMLText: String);
-    function ToXML(const AInvoice: IFatturaElettronicaType): String;
+    procedure FromXML(const ABlock: IeiBlock; const AXMLText: String);
+    function ToXML(const ABlock: IeiBlock): String;
   end;
 
 implementation
@@ -51,9 +51,9 @@ begin
   end;
 end;
 
-function TeiSerializerXML.ToXML(const AInvoice: IFatturaElettronicaType): String;
+function TeiSerializerXML.ToXML(const ABlock: IeiBlock): String;
 begin
-  Result := PropToXML(AInvoice, -1);
+  Result := PropToXML(ABlock, -1);
 end;
 
 function TeiSerializerXML.XMLExtractPropValue(const AXMLText, APropName: String; var APos: Integer): String;
@@ -93,13 +93,20 @@ begin
   end;
 end;
 
-procedure TeiSerializerXML.FromXML(const AInvoice: IFatturaElettronicaType; const AXMLText: String);
+procedure TeiSerializerXML.FromXML(const ABlock: IeiBlock; const AXMLText: String);
 var
   LPos: Integer;
+  LRootTag: String;
 begin
   LPos := 0;
-  TeiUtils.XMLFindTag(AXMLText, LPos);
-  XMLToProp(AInvoice, AXMLText, LPos);
+  LRootTag := TeiUtils.XMLFindTag(AXMLText, LPos);
+  // Validate root element: ensure the XML document type matches the expected block type.
+  // This prevents silent parsing of wrong document types (e.g., loading a FatturaElettronica
+  // as NotificaScarto would fail here instead of producing an object with empty/corrupted data).
+  if not SameText(LRootTag, ABlock.Name) then
+    raise eiSerializerException.CreateFmt(
+      'Tipo documento non valido: atteso "%s", trovato "%s"', [ABlock.Name, LRootTag]);
+  XMLToProp(ABlock, AXMLText, LPos);
 end;
 
 end.
