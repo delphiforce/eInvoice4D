@@ -1,4 +1,4 @@
-unit FormMain;
+ï»¿unit FormMain;
 
 interface
 
@@ -26,6 +26,9 @@ type
     ButtonLoadInvoice: TButton;
     ButtonSaveInvoice: TButton;
     ButtonValidate: TButton;
+    GroupBox5: TGroupBox;
+    ButtonLoadNotification: TButton;
+    ButtonSaveNotification: TButton;
     Label2: TLabel;
     Splitter1: TSplitter;
     TrackBar1: TTrackBar;
@@ -48,11 +51,16 @@ type
     procedure ActionList1Update(Action: TBasicAction; var Handled: Boolean);
     procedure TrackBar1Change(Sender: TObject);
     procedure ButtonVersionClick(Sender: TObject);
+    procedure ButtonLoadNotificationClick(Sender: TObject);
+    procedure ButtonSaveNotificationClick(Sender: TObject);
   private
     { Private declarations }
     FInvoice: IFatturaElettronicaType;
+    FNotification: INotificaScartoType;
     procedure CheckInvoiceInstance;
+    procedure CheckNotificationInstance;
     procedure UpdateMemoXML;
+    procedure UpdateMemoNotificationXML;
     procedure UpdateMemoValidationResults(const AValidationResultCollection: IeiValidationResultCollection);
   public
     { Public declarations }
@@ -166,7 +174,7 @@ begin
   FInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdPaese.Value := 'IT';
   FInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.IdFiscaleIVA.IdCodice.Value := '12345678901';
   FInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.CodiceFiscale.Value := '12345678901';
-  FInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.Anagrafica.Denominazione.Value := 'ACME & € C. SRL';
+  FInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.Anagrafica.Denominazione.Value := 'ACME & ï¿½ C. SRL';
   FInvoice.FatturaElettronicaHeader.CedentePrestatore.DatiAnagrafici.RegimeFiscale.Value := 'RF01';
   FInvoice.FatturaElettronicaHeader.CedentePrestatore.Sede.Indirizzo.Value := 'VIA ROMA 4/D';
   FInvoice.FatturaElettronicaHeader.CedentePrestatore.Sede.CAP.Value := '25100';
@@ -274,6 +282,28 @@ begin
     raise Exception.Create('You need to create or load an invoice first!');
 end;
 
+procedure TMainForm.CheckNotificationInstance;
+begin
+  if not Assigned(FNotification) then
+    raise Exception.Create('You need to load a notification first!');
+end;
+
+procedure TMainForm.ButtonLoadNotificationClick(Sender: TObject);
+begin
+  if OpenDialog1.Execute then
+  begin
+    FNotification := ei.NewNotificaScartoFromFile(OpenDialog1.FileName);
+    UpdateMemoNotificationXML;
+  end;
+end;
+
+procedure TMainForm.ButtonSaveNotificationClick(Sender: TObject);
+begin
+  CheckNotificationInstance;
+  if SaveDialog1.Execute then
+    ei.NotificaScartoToFile(FNotification, SaveDialog1.FileName);
+end;
+
 procedure TMainForm.TrackBar1Change(Sender: TObject);
 begin
   MemoXml.Font.Size := TrackBar1.Position;
@@ -298,6 +328,13 @@ begin
   MemoXml.Clear;
   if Assigned(FInvoice) then
     MemoXml.Lines.Add(ei.InvoiceToString(FInvoice));
+end;
+
+procedure TMainForm.UpdateMemoNotificationXML;
+begin
+  MemoXml.Clear;
+  if Assigned(FNotification) then
+    MemoXml.Lines.Add(ei.NotificaScartoToString(FNotification));
 end;
 
 end.

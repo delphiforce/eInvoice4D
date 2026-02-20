@@ -29,8 +29,7 @@ object MainForm: TMainForm
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 0
-    ExplicitLeft = -6
-    ExplicitTop = -3
+    ExplicitHeight = 728
     DesignSize = (
       284
       729)
@@ -146,12 +145,38 @@ object MainForm: TMainForm
         OnClick = ButtonSaveInvoiceClick
       end
     end
+    object GroupBox5: TGroupBox
+      Left = 8
+      Top = 540
+      Width = 270
+      Height = 95
+      Caption = 'Notifications'
+      TabOrder = 3
+      object ButtonLoadNotification: TButton
+        Left = 10
+        Top = 15
+        Width = 249
+        Height = 33
+        Caption = 'load notification from file'
+        TabOrder = 0
+        OnClick = ButtonLoadNotificationClick
+      end
+      object ButtonSaveNotification: TButton
+        Left = 10
+        Top = 55
+        Width = 249
+        Height = 33
+        Caption = 'save notification to file'
+        TabOrder = 1
+        OnClick = ButtonSaveNotificationClick
+      end
+    end
     object TGroupBox
       Left = 8
-      Top = 542
+      Top = 645
       Width = 270
       Height = 62
-      TabOrder = 3
+      TabOrder = 7
       object ButtonValidate: TButton
         Left = 10
         Top = 15
@@ -2650,6 +2675,7 @@ object MainForm: TMainForm
       ParentFont = False
       TabOrder = 6
       OnClick = ButtonVersionClick
+      ExplicitTop = 627
     end
   end
   object panelXml: TPanel

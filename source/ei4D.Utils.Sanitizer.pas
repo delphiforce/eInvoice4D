@@ -254,10 +254,10 @@ begin
   while LTagBegin > 0 do
   begin
     LTagEnd := PosEx('>', AXMLText, LTagBegin);
-    // NB: Individua il prossimo TagBegin e se questo è all'interno dell'intervallo
-    // tra LTagBegin e LTagEnd (è dentro il presunto "tag" che stiamo elaborando)
-    // in realtà significa che quello che stiamo considerando LTagBegin è un carattere
-    // "<" che non è l'inizio di un tag bensì è all'nterno di un "valore" quindi lo salta
+    // NB: Individua il prossimo TagBegin e se questo ï¿½ all'interno dell'intervallo
+    // tra LTagBegin e LTagEnd (ï¿½ dentro il presunto "tag" che stiamo elaborando)
+    // in realtï¿½ significa che quello che stiamo considerando LTagBegin ï¿½ un carattere
+    // "<" che non ï¿½ l'inizio di un tag bensï¿½ ï¿½ all'nterno di un "valore" quindi lo salta
     // e passa al prossimo.
     LNextTagBegin := PosEx('<', AXMLText, LTagBegin + 1);
     if (LNextTagBegin > LTagEnd) or (LNextTagBegin = 0) then
@@ -402,18 +402,39 @@ end;
 
 class procedure TeiSanitizer._InternalSanitizeSignature(var AXMLText: string);
 const
-  PREVIUS_TAG = '</FatturaElettronicaBody>';
-  NEXT_TAG = '</FatturaElettronica>';
+  // For FatturaElettronica
+  INVOICE_PREVIUS_TAG = '</FatturaElettronicaBody>';
+  INVOICE_NEXT_TAG = '</FatturaElettronica>';
+  // Generic Signature removal (after namespace removal)
+  SIGNATURE_BEGIN_TAG = '<Signature';
+  SIGNATURE_END_TAG = '</Signature>';
 var
   LXadesBegin, LXadesEnd, LXadesLength: integer;
 begin
-  LXadesBegin := Pos(PREVIUS_TAG, AXMLText);
-  LXadesEnd := Pos(NEXT_TAG, AXMLText);
-  if (LXadesBegin = 0) or (LXadesEnd = 0) then
+  // First, try the original logic for FatturaElettronica
+  LXadesBegin := Pos(INVOICE_PREVIUS_TAG, AXMLText);
+  LXadesEnd := Pos(INVOICE_NEXT_TAG, AXMLText);
+  if (LXadesBegin > 0) and (LXadesEnd > 0) then
+  begin
+    Inc(LXadesBegin, Length(INVOICE_PREVIUS_TAG));
+    LXadesLength := LXadesEnd - LXadesBegin;
+    Delete(AXMLText, LXadesBegin, LXadesLength);
     Exit;
-  Inc(LXadesBegin, Length(PREVIUS_TAG));
-  LXadesLength := LXadesEnd - LXadesBegin;
-  Delete(AXMLText, LXadesBegin, LXadesLength);
+  end;
+  // Generic approach: remove <Signature>...</Signature> block from any document type
+  // This handles notifications (NS, RC, MC, etc.) that may contain XML digital signatures
+  // Note: namespaces and attributes have already been removed at this point,
+  // so we search for '<Signature>' with closing bracket to avoid matching <SignatureValue> etc.
+  LXadesBegin := Pos(SIGNATURE_BEGIN_TAG + '>', AXMLText);
+  if LXadesBegin > 0 then
+  begin
+    LXadesEnd := Pos(SIGNATURE_END_TAG, AXMLText);
+    if LXadesEnd > 0 then
+    begin
+      LXadesLength := (LXadesEnd + Length(SIGNATURE_END_TAG)) - LXadesBegin;
+      Delete(AXMLText, LXadesBegin, LXadesLength);
+    end;
+  end;
 end;
 
 class function TeiSanitizer._InternalToAmpersand(const AXMLValue: string): string;
@@ -464,9 +485,6 @@ begin
   _InternalSanitizeProlog(AXMLText);
   _InternalSanitizeNameSpaces(AXMLText);
   _InternalSanitizeAttributes(AXMLText);
-  // _InternalSanitizeCharInsideTags(AXMLText, #13);
-  // _InternalSanitizeCharInsideTags(AXMLText, #10);
-  // _InternalSanitizeCharInsideTags(AXMLText, #9);
   _InternalSanitizeCharAfterTags(AXMLText, ' ');
   _InternalSanitizeSignature(AXMLText);
   Result := AXMLText;
