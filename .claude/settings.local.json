@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" status)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" diff)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" log --oneline -5)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" add source/ei4D.Logger.pas)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" commit -m \"$\\(cat <<''EOF''\nAggiunta dependency injection per il logger\n\nAggiunto meccanismo per iniettare un logger custom tramite SetLogger/ResetLogger.\nAggiunto TeiNullLogger per disabilitare il logging o per i test.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" diff --stat)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" add source/ei4D.Notification.Factory.pas source/ei4D.Notification.Interfaces.pas source/ei4D.pas packages/delphi/eInvoice4D.dpk packages/delphi/eInvoice4D.dproj)",
+      "Bash(git -C \"C:\\\\delphi\\\\tools\\\\eInvoice4D\" commit -m \"$\\(cat <<''EOF''\nAggiunta Notifica di Scarto \\(NS\\) - WIP con errori di compilazione\n\nImplementazione iniziale della Notifica di Scarto secondo specifica AdE pag. 43-44:\n- ei4D.Notification.Interfaces.pas: interfacce INotificaScartoType, IErroreType, IListaErroriType, IRiferimentoArchivioType\n- ei4D.Notification.Factory.pas: factory con metodi New, FromString, FromFile, FromStream \\(+ varianti Base64\\)\n- ei4D.pas: type aliases e metodi nella classe ei per deserializzazione e serializzazione\n\nNOTA: Ci sono ancora errori in compilazione da risolvere.\nEOF\n\\)\")",
+      "Bash(msbuild:*)",
+      "Bash(cmd /c:*)",
+      "Bash(dir \"C:\\\\delphi\\\\tools\\\\eInvoice4D\\\\samples\" /B)",
+      "Bash(cmd.exe:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAggiunta validazione root element XML nel serializer\n\nPreviene il parsing silenzioso di documenti XML errati verificando che\nil tag root corrisponda al tipo di blocco atteso \\(es. FatturaElettronica,\nNotificaScarto\\). Include anche la generalizzazione del serializer da\nIFatturaElettronicaType a IeiBlock per supportare tutti i tipi di documento.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit --amend -m \"$\\(cat <<''EOF''\nAggiunta validazione root element XML nel serializer\n\nPreviene il parsing silenzioso di documenti XML errati verificando che\nil tag root corrisponda al tipo di blocco atteso \\(es. FatturaElettronica,\nNotificaScarto\\). Include anche la generalizzazione del serializer da\nIFatturaElettronicaType a IeiBlock per supportare tutti i tipi di documento.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAggiunta pulsanti notifica NS nel sample + sanitizzazione firma XML - WIP\n\n- Aggiunto GroupBox5 \"Notifications\" con pulsanti load/save notification\n- Implementati metodi ButtonLoadNotificationClick e ButtonSaveNotificationClick\n- Modificato _InternalSanitizeSignature per supportare le notifiche:\n  - Aggiunta logica generica per rimuovere blocco <Signature>...</Signature>\n  - Funziona per tutti i tipi di documento \\(fatture e notifiche\\)\n\nERRORE DA RISOLVERE: il caricamento della notifica di scarto da ancora\nun errore \"Tag not found\". La rimozione della firma digitale XML non\nfunziona correttamente per le notifiche.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(dir \"C:\\\\Program Files \\(x86\\)\\\\Embarcadero\\\\Studio\")",
+      "Bash(powershell:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nMigliorato sistema encoding: thread-safety e rilevamento BOM\n\n- GetUTF8WithoutBOM ora usa AtomicCmpExchange per thread-safety\n- EncodingFactory: aggiunto rilevamento BOM \\(UTF-8, UTF-16 LE/BE\\)\n- EncodingFactory: supporto ISO-8859-1 e ISO-8859-15\n- EncodingFactory: usa singleton per UTF-8 senza BOM\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}
