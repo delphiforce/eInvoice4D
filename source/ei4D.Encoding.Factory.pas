@@ -9,13 +9,14 @@ type
 
   TeiEncodingFactory = class
   public
-    class function GetEncoding(const AStream: TStream): TEncoding;
+    class function GetEncoding(const AStream: TStream): TEncoding; overload;
+    class function GetEncoding(const ABase64String: string): TEncoding; overload;
   end;
 
 implementation
 
 uses
-  System.Math, System.RegularExpressions,
+  System.Math, System.NetEncoding, System.RegularExpressions,
   ei4D.Encoding;
 
 { TeiEncodingFactory }
@@ -67,6 +68,20 @@ begin
     Result := TeiUTFEncodingWithoutBOM.GetUTF8WithoutBOM;
   finally
     AStream.Position := LSavedPosition;
+  end;
+end;
+
+class function TeiEncodingFactory.GetEncoding(const ABase64String: string): TEncoding;
+var
+  LBytes: TBytes;
+  LStream: TBytesStream;
+begin
+  LBytes := TNetEncoding.Base64.DecodeStringToBytes(ABase64String);
+  LStream := TBytesStream.Create(LBytes);
+  try
+    Result := GetEncoding(LStream);
+  finally
+    LStream.Free;
   end;
 end;
 
