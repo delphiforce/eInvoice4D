@@ -64,7 +64,8 @@ implementation
 uses
   System.SysUtils, System.TypInfo, System.NetEncoding,
   ei4D.Invoice.Prop.Block, ei4D.Invoice.Prop.Interfaces,
-  ei4D.Serializer.Factory, ei4D.Utils.Sanitizer, ei4D.Utils;
+  ei4D.Serializer.Factory, ei4D.Utils.Sanitizer, ei4D.Utils,
+  ei4D.Encoding.Factory;
 
 { TeiNotificationFactory }
 
@@ -109,8 +110,15 @@ begin
 end;
 
 class function TeiNotificationFactory.NewNotificaScartoFromStringBase64(const ABase64StringXML: String; const AParams: IeiParams): INotificaScartoType;
+var
+  LBytes: TBytes;
+  LEncoding: TEncoding;
+  LXmlString: string;
 begin
-  Result := InternalNewNotificaScartoFromString(TNetEncoding.Base64.Decode(ABase64StringXML), AParams);
+  LBytes := TNetEncoding.Base64.DecodeStringToBytes(ABase64StringXML);
+  LEncoding := TeiEncodingFactory.GetEncoding(ABase64StringXML);
+  LXmlString := LEncoding.GetString(LBytes);
+  Result := InternalNewNotificaScartoFromString(LXmlString, AParams);
 end;
 
 end.

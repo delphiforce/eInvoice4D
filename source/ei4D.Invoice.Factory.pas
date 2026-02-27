@@ -37,7 +37,8 @@ uses
   system.SysUtils, ei4D.Invoice.Prop.List,
   ei4D.Invoice.Prop.List.Enumerator, ei4D.Params,
   ei4D.Serializer.Factory, ei4D.Utils.Sanitizer,
-  ei4D.Utils, system.NetEncoding, ei4D.Invoice.Collections;
+  ei4D.Utils, system.NetEncoding, ei4D.Invoice.Collections,
+  ei4D.Encoding.Factory;
 
 { TeiPropFactory }
 
@@ -120,8 +121,15 @@ end;
 
 class function TeiInvoiceFactory.NewInvoiceFromStringBase64(const ABase64StringXML: String; const AParams: IeiParams)
   : IFatturaElettronicaType;
+var
+  LBytes: TBytes;
+  LEncoding: TEncoding;
+  LXmlString: string;
 begin
-  Result := InternalNewInvoiceFromString(TNetEncoding.Base64.Decode(ABase64StringXML), AParams);
+  LBytes := TNetEncoding.Base64.DecodeStringToBytes(ABase64StringXML);
+  LEncoding := TeiEncodingFactory.GetEncoding(ABase64StringXML);
+  LXmlString := LEncoding.GetString(LBytes);
+  Result := InternalNewInvoiceFromString(LXmlString, AParams);
 end;
 
 class function TeiInvoiceFactory.NewInvoiceIDCollection: IeiInvoiceIDCollection;
