@@ -15,24 +15,58 @@ type
 implementation
 
 uses
+  System.Math, System.RegularExpressions,
   ei4D.Encoding;
 
 { TeiEncodingFactory }
 
 class function TeiEncodingFactory.GetEncoding(const AStream: TStream): TEncoding;
 var
-  LStringStream: TStringStream;
+  LBuffer: TBytes;
+  LBytesToRead: Integer;
+  LXmlDeclaration: string;
+  LSavedPosition: Int64;
 begin
-  LStringStream := TStringStream.Create;
+  LSavedPosition := AStream.Position;
   try
     AStream.Position := 0;
-    LStringStream.CopyFrom(AStream, 1024);
-    if LStringStream.DataString.ToLower.Contains('windows-1252') then
-      Result := TEncoding.GetEncoding(1252)
-    else
-      Result := TeiUTFEncodingWithoutBOM.Create;
+
+    // 1. Controlla BOM (metodo piu' affidabile)
+    SetLength(LBuffer, 3);
+    if AStream.Read(LBuffer, 3) >= 3 then
+    begin
+      // UTF-8 BOM
+      if (LBuffer[0] = $EF) and (LBuffer[1] = $BB) and (LBuffer[2] = $BF) then
+        Exit(TEncoding.UTF8);
+      // UTF-16 LE BOM
+      if (LBuffer[0] = $FF) and (LBuffer[1] = $FE) then
+        Exit(TEncoding.Unicode);
+      // UTF-16 BE BOM
+      if (LBuffer[0] = $FE) and (LBuffer[1] = $FF) then
+        Exit(TEncoding.BigEndianUnicode);
+    end;
+
+    // 2. Nessun BOM, analizza la dichiarazione XML
+    AStream.Position := 0;
+    LBytesToRead := Min(512, AStream.Size);
+    SetLength(LBuffer, LBytesToRead);
+    AStream.Read(LBuffer, LBytesToRead);
+
+    // Leggi come ASCII per trovare la dichiarazione
+    LXmlDeclaration := TEncoding.ASCII.GetString(LBuffer);
+
+    // 3. Cerca encoding con regex (gestisce spazi opzionali intorno all'uguale)
+    if TRegEx.IsMatch(LXmlDeclaration, 'encoding\s*=\s*[''"]windows-1252[''"]', [roIgnoreCase]) then
+      Exit(TEncoding.GetEncoding(1252))
+    else if TRegEx.IsMatch(LXmlDeclaration, 'encoding\s*=\s*[''"]iso-8859-1[''"]', [roIgnoreCase]) then
+      Exit(TEncoding.GetEncoding(28591))
+    else if TRegEx.IsMatch(LXmlDeclaration, 'encoding\s*=\s*[''"]iso-8859-15[''"]', [roIgnoreCase]) then
+      Exit(TEncoding.GetEncoding(28605));
+
+    // 4. Default: UTF-8 senza BOM (singleton)
+    Result := TeiUTFEncodingWithoutBOM.GetUTF8WithoutBOM;
   finally
-    LStringStream.Free;
+    AStream.Position := LSavedPosition;
   end;
 end;
 
