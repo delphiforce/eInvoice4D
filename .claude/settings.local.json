@@ -20,7 +20,8 @@
       "Bash(git commit -m \"$\\(cat <<''EOF''\nAggiunta pulsanti notifica NS nel sample + sanitizzazione firma XML - WIP\n\n- Aggiunto GroupBox5 \"Notifications\" con pulsanti load/save notification\n- Implementati metodi ButtonLoadNotificationClick e ButtonSaveNotificationClick\n- Modificato _InternalSanitizeSignature per supportare le notifiche:\n  - Aggiunta logica generica per rimuovere blocco <Signature>...</Signature>\n  - Funziona per tutti i tipi di documento \\(fatture e notifiche\\)\n\nERRORE DA RISOLVERE: il caricamento della notifica di scarto da ancora\nun errore \"Tag not found\". La rimozione della firma digitale XML non\nfunziona correttamente per le notifiche.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
       "Bash(dir \"C:\\\\Program Files \\(x86\\)\\\\Embarcadero\\\\Studio\")",
       "Bash(powershell:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nMigliorato sistema encoding: thread-safety e rilevamento BOM\n\n- GetUTF8WithoutBOM ora usa AtomicCmpExchange per thread-safety\n- EncodingFactory: aggiunto rilevamento BOM \\(UTF-8, UTF-16 LE/BE\\)\n- EncodingFactory: supporto ISO-8859-1 e ISO-8859-15\n- EncodingFactory: usa singleton per UTF-8 senza BOM\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nMigliorato sistema encoding: thread-safety e rilevamento BOM\n\n- GetUTF8WithoutBOM ora usa AtomicCmpExchange per thread-safety\n- EncodingFactory: aggiunto rilevamento BOM \\(UTF-8, UTF-16 LE/BE\\)\n- EncodingFactory: supporto ISO-8859-1 e ISO-8859-15\n- EncodingFactory: usa singleton per UTF-8 senza BOM\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)"
     ]
   }
 }
