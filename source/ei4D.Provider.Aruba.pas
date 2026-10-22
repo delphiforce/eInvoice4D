@@ -47,6 +47,7 @@ uses ei4D.Provider.Base,
   System.JSON,
   System.Generics.Collections,
   System.SyncObjs,
+  ei4D.Params.Interfaces,
   ei4D.Invoice.Interfaces;
 
 const
@@ -66,7 +67,8 @@ const
 type
 
   // Categorie di chiamata con limite SLA Aruba distinto (per IP, finestra di un minuto)
-  TeiArubaCallCategory = (accAuth, accUpload, accSearchOut, accSearchIn, accNotificationOut, accNotificationIn);
+  // accSimulator: simulatore SdI dell'ambiente demo (sez. 14), limite non documentato: si usa quello delle ricerche
+  TeiArubaCallCategory = (accAuth, accUpload, accSearchOut, accSearchIn, accNotificationOut, accNotificationIn, accSimulator);
 
   // Rate limiter a finestra mobile per categoria, condiviso da tutte le istanze del provider nel processo
   // (thread-safe). Prima di ogni chiamata si "prenota" uno slot: se nella finestra ci sono gia' LIMITS[cat]
@@ -79,11 +81,11 @@ type
   private const
     // SLA Aruba (sez. 3): auth 1/min, upload 30/min, ricerche e notifiche 12/min per ciascun tipo.
     // getByFilename/getByInvoiceFilename sono trattate come ricerche: la documentazione non le esclude.
-    LIMITS: array [TeiArubaCallCategory] of Integer = (1, 30, 12, 12, 12, 12);
+    LIMITS: array [TeiArubaCallCategory] of Integer = (1, 30, 12, 12, 12, 12, 12);
     // Finestre in ms con margine sui 60 s nominali (auth piu' larga, come prima: 65 s)
-    WINDOWS_MS: array [TeiArubaCallCategory] of UInt64 = (CONST_MIN_AUTH_INTERVAL, 61000, 61000, 61000, 61000, 61000);
+    WINDOWS_MS: array [TeiArubaCallCategory] of UInt64 = (CONST_MIN_AUTH_INTERVAL, 61000, 61000, 61000, 61000, 61000, 61000);
     NAMES: array [TeiArubaCallCategory] of string = ('auth', 'upload', 'search-out', 'search-in', 'notification-out',
-      'notification-in');
+      'notification-in', 'sdi-simulator');
     // Finestra della quota oraria, con un minuto di margine
     UPLOAD_QUOTA_WINDOW_MINUTES = 61;
   private
@@ -112,6 +114,21 @@ type
     class procedure Acquire(const ACategory: TeiArubaCallCategory);
     // Da chiamare quando Aruba risponde HTTP 429
     class procedure RegisterTooManyRequests(const ACategory: TeiArubaCallCategory);
+  end;
+
+  // Simulatore del Sistema di Interscambio, disponibile SOLO nell'ambiente demo Aruba (doc. sez. 14).
+  // Usa lo stesso token e lo stesso rate limiter del provider; solleva eccezione se BaseUrlWS non e' demo.
+  TeiArubaSdiSimulator = class
+  public const
+    // Tipi di notifica accettati da sdisimulator/notificationOut
+    NOTIFICATION_TYPES: array [0 .. 6] of string = ('NS', 'MC', 'AT', 'RC', 'NE_EC01', 'NE_EC02', 'DT');
+  public
+    class function IsDemo(const AParams: IeiParams): boolean; static;
+    // Genera una notifica SDI per una fattura inviata; restituisce il nome file della notifica
+    class function SimulateNotificationOut(const AParams: IeiParams; const AInvoiceFileName, ANotificationType: string): string; static;
+    // Genera una fattura ricevuta (modello casuale) per il destinatario indicato; restituisce il nome file della fattura
+    class function SimulateInvoiceIn(const AParams: IeiParams; const ACountryReceiver, AVatCodeReceiver: string;
+      const AFiscalCodeReceiver: string = ''): string; static;
   end;
 
   TeiProviderAruba = class(TeiProviderBase)
@@ -153,7 +170,6 @@ uses System.UITypes,
   System.Net.HttpClient,
   Winapi.windows,
   ei4D.Exception,
-  ei4D.Params.Interfaces,
   ei4D.Utils,
   ei4D.Response.Factory,
   ei4D.Utils.P7mExtractor,
@@ -1151,5 +1167,94 @@ end;
 // LEndPos := pos('FatturaElettronica>', Result);
 // Result := '<' + Result.Substring(0, LEndPos + 18);
 // end;
+
+{ TeiArubaSdiSimulator }
+
+class function TeiArubaSdiSimulator.IsDemo(const AParams: IeiParams): boolean;
+begin
+  Result := AParams.Provider.BaseUrlWS.ToLower.Contains('demows.fatturazioneelettronica.aruba.it');
+end;
+
+// POST JSON verso il simulatore e restituisce il campo AResultField della risposta (201 Created)
+function SimulatorPost(const AParams: IeiParams; const AResource: string; const ABody: TJSONObject; const AResultField: string): string;
+var
+  LRESTClient: TRESTClient;
+  LRESTRequest: TRESTRequest;
+  LRESTResponse: TRESTResponse;
+  JObjResponse: TJSONValue;
+begin
+  if not TeiArubaSdiSimulator.IsDemo(AParams) then
+      raise eiGenericException.Create('Simulatore SdI disponibile solo nell''ambiente demo Aruba (BaseUrlWS attuale: ' +
+      AParams.Provider.BaseUrlWS + ')');
+
+  LRESTClient := TRESTClient.Create(nil);
+  LRESTRequest := TRESTRequest.Create(nil);
+  LRESTResponse := TRESTResponse.Create(nil);
+  try
+    LRESTClient.BaseURL := AParams.Provider.BaseUrlWS;
+    LRESTRequest.Resource := AResource;
+    LRESTRequest.Client := LRESTClient;
+    LRESTRequest.Response := LRESTResponse;
+    LRESTRequest.Method := rmPOST;
+    LRESTRequest.Accept := 'application/json';
+    LRESTRequest.Body.Add(ABody.ToJSON, TRESTContentType.ctAPPLICATION_JSON);
+
+    ExecuteAuthorized(AParams, LRESTRequest, accSimulator);
+    if not (LRESTResponse.StatusCode in [200, 201]) then
+        raise eiGenericException.Create(Format('Aruba %s: %d - %s %s', [AResource, LRESTResponse.StatusCode, LRESTResponse.StatusText,
+        LRESTResponse.Content]));
+
+    Result := '';
+    JObjResponse := TJSONObject.ParseJSONValue(LRESTResponse.Content);
+    try
+      if JObjResponse is TJSONObject then
+          Result := TJSONObject(JObjResponse).GetValue<string>(AResultField, '');
+    finally
+      JObjResponse.Free;
+    end;
+    TeiLogger.LogI(Format('Aruba %s: %s', [AResource, LRESTResponse.Content]));
+  finally
+    LRESTClient.Free;
+    LRESTRequest.Free;
+    LRESTResponse.Free;
+  end;
+end;
+
+class function TeiArubaSdiSimulator.SimulateNotificationOut(const AParams: IeiParams; const AInvoiceFileName, ANotificationType: string): string;
+var
+  LBody: TJSONObject;
+begin
+  if AInvoiceFileName.Trim.IsEmpty then
+      raise eiGenericException.Create('Simulatore SdI: nome file della fattura inviata obbligatorio');
+  LBody := TJSONObject.Create;
+  try
+    LBody.AddPair('invoiceFileName', AInvoiceFileName.Trim);
+    LBody.AddPair('notificationType', ANotificationType.Trim.ToUpper);
+    Result := SimulatorPost(AParams, '/services/sdisimulator/notificationOut', LBody, 'notificationFileName');
+  finally
+    LBody.Free;
+  end;
+end;
+
+class function TeiArubaSdiSimulator.SimulateInvoiceIn(const AParams: IeiParams; const ACountryReceiver, AVatCodeReceiver,
+  AFiscalCodeReceiver: string): string;
+var
+  LBody: TJSONObject;
+begin
+  if AVatCodeReceiver.Trim.IsEmpty then
+      raise eiGenericException.Create('Simulatore SdI: partita IVA del destinatario obbligatoria');
+  LBody := TJSONObject.Create;
+  try
+    LBody.AddPair('countryReceiver', ACountryReceiver.Trim.ToUpper);
+    LBody.AddPair('vatcodeReceiver', AVatCodeReceiver.Trim);
+    if AFiscalCodeReceiver.Trim.IsEmpty then
+        LBody.AddPair('fiscalcodeReceiver', TJSONNull.Create)
+    else
+        LBody.AddPair('fiscalcodeReceiver', AFiscalCodeReceiver.Trim);
+    Result := SimulatorPost(AParams, '/services/sdisimulator/invoiceIn', LBody, 'invoiceFileName');
+  finally
+    LBody.Free;
+  end;
+end;
 
 end.
