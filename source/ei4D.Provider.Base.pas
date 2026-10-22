@@ -45,7 +45,7 @@ interface
 // DO NOT REMOVE !!! IPPeerClient necessary for all REST calls in derived classes
 // DO NOT REMOVE !!! IPPeerClient necessary for all REST calls in derived classes
 uses IPPeerClient, ei4D.Response.Interfaces, ei4D.Provider.Interfaces,
-  ei4D.Invoice.Interfaces, ei4D.Params.Interfaces, System.SysUtils;
+  ei4D.Invoice.Interfaces, ei4D.Params.Interfaces, System.SysUtils, System.Generics.Collections;
 
 type
 
@@ -69,11 +69,16 @@ type
       const AInvoiceIDCollection: IeiInvoiceIDCollection); virtual; abstract;
     procedure DoReceivePurchaseInvoice(const AInvoiceID: string; const AResponseCollection: IeiResponseCollection); virtual; abstract;
     procedure DoReceivePurchaseInvoiceNotifications(const AInvoiceID: string; const AResponseCollection: IeiResponseCollection); virtual; abstract;
+    // Opzionale: di default non supportato (solleva eccezione)
+    procedure DoReceiveSalesInvoiceStatusCollection(const ACountrySender, AVatCodeSender: string; const AStartDate, AEndDate: TDateTime;
+      const AMaxPages: Integer; const AResult: TList<TeiSalesInvoiceStatus>); virtual;
   public
     constructor Create(const AParams: IeiParams); virtual;
     // Connect/Disconnect
     procedure Connect;
     procedure Disconnect;
+    // Swap params on an already-connected provider without re-authenticating (see IeiProvider.SetParams)
+    procedure SetParams(const AParams: IeiParams);
     // Send
     function SendInvoice(const AInvoice: string): IeiResponseCollection; overload;
     function SendInvoice(const AInvoice: IFatturaElettronicaType): IeiResponseCollection; overload;
@@ -93,6 +98,8 @@ type
     procedure ReceiveInvoiceCollectionNotifications(const AInvoiceIDCollection: IeiInvoiceIDCollection;
       const AAfterEachMethod: TProc<IeiResponseCollection, String>;
       const AOnEachErrorMethod: TProc<IeiResponseCollection, Exception, String> = nil); overload;
+    function ReceiveSalesInvoiceStatusCollection(const ACountrySender, AVatCodeSender: string; const AStartDate, AEndDate: TDateTime;
+      const AMaxPages: Integer): TArray<TeiSalesInvoiceStatus>;
     // Notifications (purchase)
     function ReceivePurchaseInvoiceNotifications(const AInvoiceID: string): IeiResponseCollection;
 { TODO : Fare anche le versioni a liste come sopra? Anche con i metodi anonimi? }
@@ -126,6 +133,12 @@ begin
       raise;
     end;
   end;
+end;
+
+procedure TeiProviderBase.SetParams(const AParams: IeiParams);
+begin
+  ValidateParams(AParams);
+  FParams := AParams;
 end;
 
 procedure TeiProviderBase.Disconnect;
@@ -182,6 +195,35 @@ function TeiProviderBase.ReceiveInvoiceNotifications(const AInvoiceID: string): 
 begin
   Result := TeiResponseFactory.NewResponseCollection;
   _InternalReceiveInvoiceNotifications(AInvoiceID, Result);
+end;
+
+procedure TeiProviderBase.DoReceiveSalesInvoiceStatusCollection(const ACountrySender, AVatCodeSender: string;
+  const AStartDate, AEndDate: TDateTime; const AMaxPages: Integer; const AResult: TList<TeiSalesInvoiceStatus>);
+begin
+  raise eiGenericException.CreateFmt('%s: lettura in blocco dello stato delle fatture inviate non supportata', [ClassName]);
+end;
+
+function TeiProviderBase.ReceiveSalesInvoiceStatusCollection(const ACountrySender, AVatCodeSender: string;
+  const AStartDate, AEndDate: TDateTime; const AMaxPages: Integer): TArray<TeiSalesInvoiceStatus>;
+var
+  LResult: TList<TeiSalesInvoiceStatus>;
+begin
+  Sleep(FParams.InterOperationDelay);
+  LResult := TList<TeiSalesInvoiceStatus>.Create;
+  try
+    try
+      DoReceiveSalesInvoiceStatusCollection(ACountrySender, AVatCodeSender, AStartDate, AEndDate, AMaxPages, LResult);
+    except
+      on E: Exception do
+      begin
+        TeiLogger.LogE(E);
+        raise;
+      end;
+    end;
+    Result := LResult.ToArray;
+  finally
+    LResult.Free;
+  end;
 end;
 
 function TeiProviderBase.ReceivePurchaseInvoice(const AInvoiceID: string): IeiResponseCollection;

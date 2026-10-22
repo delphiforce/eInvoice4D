@@ -47,6 +47,8 @@ type
   eiGenericException = class(Exception);
   eiDecimalsException = class(eiGenericException);
   eiRESTAuthException = class(eiGenericException);
+  // Limite SLA del provider raggiunto (HTTP 429, quota oraria, invii sospesi): interrompere senza ritentare
+  eiRateLimitException = class(eiGenericException);
   eiPropertyException = class(eiGenericException);
   eiSerializerException = class(eiGenericException);
 

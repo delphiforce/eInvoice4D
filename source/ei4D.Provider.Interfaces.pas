@@ -41,14 +41,27 @@ unit ei4D.Provider.Interfaces;
 
 interface
 
-uses ei4D.Response.Interfaces, ei4D.Invoice.Interfaces, System.SysUtils;
+uses ei4D.Response.Interfaces, ei4D.Invoice.Interfaces, ei4D.Params.Interfaces, System.SysUtils;
 
 type
+  // Stato SDI di una fattura inviata, letto in blocco dal provider (es. Aruba invoice/out/findByUsername)
+  TeiSalesInvoiceStatus = record
+    FileName: string; // nome file assegnato dal provider all'upload
+    ProviderStatus: string; // stato testuale del provider (es. "Consegnata")
+    // Tipo di notifica SDI corrispondente allo stato: rtAcceptedByProvider = nessuna notifica SDI ancora,
+    // rtRejectedByProvider = errore di elaborazione del provider, rtUnknown = stato non riconosciuto
+    ResponseType: TeiResponseType;
+  end;
+
   IeiProvider = interface
     ['{DC65CE1B-2574-4044-9E86-61F132504116}']
     // Connect/Disconnect
     procedure Connect;
     procedure Disconnect;
+    // Replaces the params used by an already-connected provider (e.g. per-tenant formatting
+    // params) without re-authenticating: credentials/BaseUrl are re-validated but no new
+    // login is triggered, so a single provider instance/token can be reused across tenants.
+    procedure SetParams(const AParams: IeiParams);
     // Send
     function SendInvoice(const AInvoice: string): IeiResponseCollection; overload;
     function SendInvoice(const AInvoice: IFatturaElettronicaType): IeiResponseCollection; overload;
@@ -68,6 +81,11 @@ type
     procedure ReceiveInvoiceCollectionNotifications(const AInvoiceIDCollection: IeiInvoiceIDCollection;
       const AAfterEachMethod: TProc<IeiResponseCollection, String>;
       const AOnEachErrorMethod: TProc<IeiResponseCollection, Exception, String> = nil); overload;
+    // Stato delle fatture inviate in blocco (paginato), per chiedere le notifiche solo di quelle cambiate.
+    // AMaxPages limita il costo: se le pagine sono di piu' il risultato e' parziale e le fatture mancanti
+    // vanno verificate singolarmente. Solleva eccezione se il provider non lo supporta.
+    function ReceiveSalesInvoiceStatusCollection(const ACountrySender, AVatCodeSender: string; const AStartDate, AEndDate: TDateTime;
+      const AMaxPages: Integer): TArray<TeiSalesInvoiceStatus>;
     // Notifications (purchase)
     function ReceivePurchaseInvoiceNotifications(const AInvoiceID: string): IeiResponseCollection;
   end;
